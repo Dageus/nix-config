@@ -5,7 +5,7 @@
 
     home.packages = with pkgs; [
       # "Code" fonts
-      (nerdfonts.override { fonts = [ "IosevkaTerm" ]; })
+      nerd-fonts.iosevka-term
       fira-code
       jetbrains-mono
       intel-one-mono

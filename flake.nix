@@ -2,7 +2,7 @@
   description = "Dageus nix config";
 
   inputs = {
-    systems.url = ./systems.nix;
+    systems.url = "path:./systems.nix";
     systems.flake = false;
 
     flake-compat.url = "github:NixOS/flake-compat";
@@ -65,8 +65,9 @@
     allow-import-from-derivation = false;
   };
 
-  outputs = inputs:
-    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       systems = import inputs.systems;
 
       imports = [

@@ -16,7 +16,7 @@ in {
   };
 
   config = mkIf cfg.nvim {
-    home.packages = [self.packages.${system}.nvim];
+    home.packages = [pkgs.neovim];
     home.sessionVariables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
