@@ -23,7 +23,7 @@ let
       owner = "Nybkox";
       repo = "tmux-kanagawa";
       rev = "master"; # You can pin this to a specific commit hash later!
-      hash = lib.fakeHash; # Nix will tell you the real hash when you build
+      hash = "sha256-jOcGNKb8QrIgT7l3D3RiJOPIC9JU1rOy8tk0x5ULrdc=";
     };
   };
 

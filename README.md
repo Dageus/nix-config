@@ -9,3 +9,11 @@
 When I'm familiar with NixOS, try to look into [Impermanence](https://nixos.wiki/wiki/Impermanence).
 
 When I have more time, configure GPG Keys automatically in `modules/home-manager/gpg.nix`.
+
+## Installation
+
+```
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko ./hosts/laptop/disks.nix
+
+sudo nixos-install --flake .#laptop
+```
