@@ -5,7 +5,7 @@
       enable = true;
       signing = {
         key = "ED1A8299";
-        signByDefault = true;
+        signByDefault = false;
       };
       settings = {
         user.name = "Dageus";

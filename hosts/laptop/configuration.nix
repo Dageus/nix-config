@@ -9,6 +9,7 @@
     docker.enable = true;
     battery.optimise = true;
     flatpak.enable = true;
+    login = "sddm";
     # NOTE: too early for this
     # impermanence.enable = true;
     # impermanence.wipeOnBoot = true;
@@ -29,6 +30,8 @@
     "usb_storage"
     "sd_mod"
   ];
+
+  networking.networkmanager.enable = true;
 
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";

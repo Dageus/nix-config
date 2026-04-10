@@ -17,3 +17,9 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 
 sudo nixos-install --flake .#laptop
 ```
+
+### Dump hardware-configuration
+
+```
+nixos-generate-config --show-hardware-config > hosts/laptop/hardware-configuration.nix
+```
