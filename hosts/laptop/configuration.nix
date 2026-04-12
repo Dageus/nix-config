@@ -9,7 +9,7 @@
     docker.enable = true;
     battery.optimise = true;
     flatpak.enable = true;
-    login = "sddm";
+    login.manager = "sddm";
     # NOTE: too early for this
     # impermanence.enable = true;
     # impermanence.wipeOnBoot = true;

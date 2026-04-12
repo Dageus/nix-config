@@ -56,12 +56,6 @@ in {
       };
 
       settings = {
-        # Use tmux if enabled, otherwise zsh
-        shell = getExe (
-          if config.programs.tmux.enable
-          then config.programs.tmux.package
-          else config.programs.zsh.package
-        );
         # system, background, #hex, or color name
         confirm_os_window_close = 0;
         background_opacity = "0.95";

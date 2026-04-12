@@ -15,6 +15,5 @@ in
     services.displayManager.sddm.wayland.enable = true;
 
     programs.niri.enable = true;
-    programs.waybar.enable = true;
   };
 }

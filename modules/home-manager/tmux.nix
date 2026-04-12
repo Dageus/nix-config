@@ -69,7 +69,7 @@ in
 
       prefix = "C-Space";
       baseIndex = 1;
-      escapeTime = 0; # Prevent Esc delay
+      escapeTime = 10; # Prevent Esc delay
       mouse = true;
       clock24 = true;
       keyMode = "vi";
@@ -77,9 +77,11 @@ in
       historyLimit = 10000;
 
       shell = getExe config.programs.zsh.package; # Use zsh
-      terminal = "screen-256color"; # Enable 256bit color
+      terminal = "tmux-256color"; # Enable 256bit color
 
       extraConfig = ''
+        set-option -sa terminal-features ',xterm-256color:RGB'
+        set-option -g focus-events on
         set-option -g status-position bottom
       '';
 
