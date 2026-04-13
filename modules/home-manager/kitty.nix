@@ -46,16 +46,13 @@ in {
     programs.kitty = {
       enable = true;
 
-      # Enable shell completions (etc) for kitty command
-      shellIntegration.enableBashIntegration = true;
-      shellIntegration.enableZshIntegration = true;
-
       keybindings = {
         "ctrl+c" = "copy_and_clear_or_interrupt";
         "ctrl+shift+c" = "copy_to_clipboard";
       };
 
       settings = {
+        shell = getExe (config.programs.zsh.package);
         # system, background, #hex, or color name
         confirm_os_window_close = 0;
         background_opacity = "0.95";
@@ -63,12 +60,14 @@ in {
         dynamic_background_opacity = true;
         enable_audio_bell = false;
         cursor_shape = "block";
+        cursor_blink_interval = 0;
+        shell_integration = "no-cursor";
         clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
       };
 
       # TODO use fonts defined in nix config
       font = {
-        name = "Iosevka Term";
+        name = "IosevkaTerm Nerd Font Mono";
         size = 12;
       };
     };

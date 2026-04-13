@@ -19,24 +19,33 @@ in {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
+
+      autocd = true;
+
+      shellAliases = {
+        ll = "ls -l";
+        update = "sudo nixos-rebuild switch --flake ~/nix-config#laptop";
+      };
+
+      # Oh-My-Zsh
+      oh-my-zsh = {
+        enable = true;
+        plugins = [ "git" "sudo" ];
+        theme = "robbyrussell";
+      };
+
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
     };
 
-    # Use the starship prompt
-    programs.starship = {
-      enable = true;
-      enableTransience = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      # See https://starship.rs/config
-      settings = {
-        add_newline = true;
-        character = {
-          success_symbol = "➜(bold green)";
-          error_symbol = "➜(bold red)";
-        };
-      };
+    # Enable zoxide
+    programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+    };
+
+    home.sessionVariables = {
+        GOPATH = "$HOME/go";
     };
   };
 }
