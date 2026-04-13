@@ -1,22 +1,12 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 {
-home.packages = with pkgs; [
-fuzzel
+  home.packages = with pkgs; [
+    fuzzel
+    waybar
+  ];
 
-# Hardcoding for nvim for now
-go
-nodejs
-python3
-cargo
-gcc
-gnumake
-
-# some other tools
-unzip
-tree-sitter
-wget
-curl
-gzip
-gnutar
-];
+  xdg.configFile."niri/config.kdl".source = ./niri/config.kdl;
+  xdg.configFile."swaylock/config".source = ./niri/swaylock.conf;
+  xdg.configFile."waybar/config".source = ./waybar/waybar.conf;
+  xdg.configFile."waybar/style.css".source = ./waybar/waybar.css;
 }

@@ -15,6 +15,7 @@
         pull.rebase = true;
         rebase.autosquash = true;
         help.autoCorrect = "prompt";
+        color.ui = "auto";
       };
     };
 
