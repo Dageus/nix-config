@@ -1,7 +1,7 @@
 input {
     keyboard {
         xkb {
-            layout "us,es"
+            layout "pt"
             options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
         }
         numlock
@@ -41,12 +41,6 @@ input {
     // warp-mouse-to-focus
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     // focus-follows-mouse max-scroll-amount="0%"
-}
-output "HDMI-A-1" {
-    mode "1920x1080@72"
-    scale 1
-    transform "normal"
-    position x=1280 y=0
 }
 overview {
     zoom 0.25
@@ -198,10 +192,6 @@ workspace "obs"
 workspace "oss"
 
 window-rule {
-    match app-id=r#"obs"#
-    open-on-workspace "obs"
-}
-window-rule {
     match app-id=r#"steam"#
     open-on-workspace "oss"
 }
@@ -214,21 +204,14 @@ window-rule {
     open-on-workspace "oss"
 }
 window-rule {
-    match app-id=r#"chromium"#
+    match app-id=r#"firefox"#
     open-maximized true
     open-on-workspace "brow"
 }
 window-rule {
-    match app-id=r#"ghostty"#
+    match app-id=r#"kitty"#
     open-maximized true
-    opacity 0.65
     open-on-workspace "term"
-}
-
-window-rule {
-    match app-id=r#"qemu"#
-    open-on-workspace "5"
-    open-maximized true
 }
 
 // Example: block out two password managers from screen capture.
@@ -251,14 +234,11 @@ window-rule {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
-spawn-at-startup "bitwarden"
 spawn-sh-at-startup "waypaper --random"
-spawn-at-startup "obs"
 spawn-at-startup "steam"
-spawn-at-startup "obsidian"
 spawn-at-startup "spotify"
-spawn-at-startup "chromium"
-spawn-at-startup "ghostty"
+spawn-at-startup "firefox"
+spawn-at-startup "kitty"
 spawn-sh-at-startup "swayidle -w timeout 600 'swaylock -f' timeout 900 'niri msg output power off' resume 'niri msg output power on' before-sleep 'swaylock -f'"
 
 binds {
@@ -269,13 +249,13 @@ binds {
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
     Mod+Shift+O hotkey-overlay-title="toggle opacity" { toggle-window-rule-opacity; }
-    Mod+Shift+W hotkey-overlay-title="random wallpaper" { spawn-sh "waypaper --random"; }    
+    Mod+Shift+W hotkey-overlay-title="random wallpaper" { spawn-sh "waypaper --random"; }
 
     Mod+W hotkey-overlay-title="toggle waybar" repeat=false { spawn-sh "pkill -SIGUSR1 waybar || waybar"; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal " { spawn "ghostty"; }
-    Mod+B hotkey-overlay-title="Open a Browser " { spawn "chromium"; }
+    Mod+T hotkey-overlay-title="Open a Terminal " { spawn "kitty"; }
+    Mod+B hotkey-overlay-title="Open a Browser " { spawn "firefox"; }
     Mod+O hotkey-overlay-title="Open a Obsidian " { spawn "obsidian"; }
     Mod+E hotkey-overlay-title="Open a FileManager " { spawn "nautilus"; }
     Mod+D hotkey-overlay-title="Run an Application" { spawn-sh "wofi --show drun"; }
