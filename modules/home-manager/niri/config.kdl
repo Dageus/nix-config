@@ -1,8 +1,16 @@
+prefer-no-csd
+
+environment {
+    XCURSOR_SIZE "16" // Drop this to 16 if 24 still feels too large
+    // XCURSOR_THEME "Adwaita" // Replace with your actual cursor theme name
+}
+
+
 input {
     keyboard {
         xkb {
             layout "pt"
-            options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+            // variant "mac"
         }
         numlock
     }
@@ -40,24 +48,45 @@ input {
     }
     // warp-mouse-to-focus
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    // focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse max-scroll-amount="0%"
 }
-overview {
-    zoom 0.25
+output "eDP-1" {
+    scale 1
+
+    // You can also force a specific resolution if it's being goofy
+    // mode "1920x1080@60.000"
 }
 
+// cursor {
+//   xcursor-size 32
+// }
+
 layout {
+    background-color "transparent"
     // Set gaps around windows in logical pixels.
-    gaps 5
-    center-focused-column "on-overflow"
-    always-center-single-column
+    gaps 6
+    center-focused-column "never"
+
+    preset-column-widths {
+        // Proportion sets the width as a fraction of the output width, taking gaps into account.
+        // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
+        // The default preset widths are 1/3, 1/2 and 2/3 of the output.
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+
+        // Fixed sets the width in logical pixels exactly.
+        // fixed 1920
+    }
+
+    default-column-width { proportion 0.5; }
 
     focus-ring {
         // Uncomment this line to disable the focus ring.
-        off
+        // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 1
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -93,10 +122,11 @@ layout {
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
-        off
+        // off
 
-        width 2
-        active-color "#ffc87f"
+
+        width 1
+        active-color "#7fc8ff"
         inactive-color "#505050"
 
         // Color of the border around windows that request your attention.
@@ -129,29 +159,60 @@ layout {
         // window. These will also remove client-side shadows if the window
         // draws any.
         //
-        draw-behind-window true
+        // draw-behind-window true
 
         // You can change how shadows look. The values below are in logical
         // pixels and match the CSS box-shadow properties.
 
         // Softness controls the shadow blur radius.
-        softness 50
+        softness 10
 
         // Spread expands the shadow.
-        spread 5
+        spread 4
 
         // Offset moves the shadow relative to the window.
-        offset x=0 y=5
+        offset x=0 y=0
 
         // You can also change the shadow color and opacity.
         color "#0007"
     }
-    background-color "transparent"
 
+    // Struts shrink the area occupied by windows, similarly to layer-shell panels.
+    // You can think of them as a kind of outer gaps. They are set in logical pixels.
+    // Left and right struts will cause the next window to the side to always be visible.
+    // Top and bottom struts will simply add outer gaps in addition to the area occupied by
+    // layer-shell panels and regular gaps.
+    struts {
+        // left 64
+        // right 64
+        // top 64
+        // bottom 64
+    }
 }
+
+/-overview {
+
+    zoom 0.55
+    backdrop-color "#4c566a90"
+}
+
+// This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-at-startup "noctalia-shell"
+spawn-at-startup "vicinae" "server"
+
+layer-rule {
+    place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^noctalia-wallpaper*"
+    place-within-backdrop true
+}
+
 hotkey-overlay {
-    skip-at-startup
+   // skip-at-startup
 }
+
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
     // Uncomment to turn off all animations.
@@ -170,49 +231,22 @@ window-rule {
     default-column-width {}
 }
 
+window-rule {
+    match app-id="kitty-float"
+    open-floating true
+    default-column-width { proportion 0.5; }
+    default-window-height { proportion 0.5; }
+}
+
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match title="Picture in picture"
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
-    default-floating-position x=100 y=100 relative-to="bottom-right"
-    tiled-state true
 }
 
-workspace "1"
-workspace "brow"
-workspace "term"
-workspace "4"
-workspace "5"
-workspace "6"
-workspace "7"
-workspace "obs"
-workspace "oss"
-
-window-rule {
-    match app-id=r#"steam"#
-    open-on-workspace "oss"
-}
-window-rule {
-    match app-id=r#"^Spotify$"#
-    open-on-workspace "oss"
-}
-window-rule {
-    match app-id=r#"^discord$"#
-    open-on-workspace "oss"
-}
-window-rule {
-    match app-id=r#"firefox"#
-    open-maximized true
-    open-on-workspace "brow"
-}
-window-rule {
-    match app-id=r#"kitty"#
-    open-maximized true
-    open-on-workspace "term"
-}
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
@@ -227,49 +261,58 @@ window-rule {
 }
 
 window-rule {
-    geometry-corner-radius 6
+    match app-id="kitty"
+
     clip-to-geometry true
+
+    background-effect {
+        blur true
+        xray true
+    }
 }
 
+window-rule{
+  draw-border-with-background false
+  match app-id=r#"firefox"#
+  background-effect {
+    blur true
+    xray true
+  }
+}
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
-spawn-sh-at-startup "waypaper --random"
-spawn-at-startup "steam"
-spawn-at-startup "spotify"
-spawn-at-startup "firefox"
-spawn-at-startup "kitty"
-spawn-sh-at-startup "swayidle -w timeout 600 'swaylock -f' timeout 900 'niri msg output power off' resume 'niri msg output power on' before-sleep 'swaylock -f'"
+// Example: enable rounded corners for all windows.
+// (This example rule is commented out with a "/-" in front.)
+/-window-rule {
+    geometry-corner-radius 4
+    clip-to-geometry true
+    draw-border-with-background false
+}
+
+window-rule {
+  match is-focused=false
+  opacity 0.7
+}
 
 binds {
-    // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
-    // when running as a winit window.
-    // `niri msg action do-something`.
-    // Mod-Shift-/, which is usually the same as Mod-?,
-    // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+Shift+O hotkey-overlay-title="toggle opacity" { toggle-window-rule-opacity; }
-    Mod+Shift+W hotkey-overlay-title="random wallpaper" { spawn-sh "waypaper --random"; }
 
-    Mod+W hotkey-overlay-title="toggle waybar" repeat=false { spawn-sh "pkill -SIGUSR1 waybar || waybar"; }
+    Mod+Space repeat=false { spawn "vicinae" "toggle"; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal " { spawn "kitty"; }
-    Mod+B hotkey-overlay-title="Open a Browser " { spawn "firefox"; }
-    Mod+O hotkey-overlay-title="Open a Obsidian " { spawn "obsidian"; }
-    Mod+E hotkey-overlay-title="Open a FileManager " { spawn "nautilus"; }
-    Mod+D hotkey-overlay-title="Run an Application" { spawn-sh "wofi --show drun"; }
-    Super+Shift+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn-sh "swaylock "; }
-    // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
-    // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    Mod+Shift+Return hotkey-overlay-title="Floating Terminal" {
+        spawn-sh "kitty --class kitty-float";
+    }
+    Mod+Return hotkey-overlay-title="Open Terminal: kitty" { spawn "kitty"; }
+    Ctrl+Shift+Escape hotkey-overlay-title="Open System Monitor: btop" { spawn-sh "kitty zsh -i -c btop"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: noctalia-shell" { spawn-sh "qs -c noctalia-shell ipc call lockScreen lock"; }
+    Mod+Shift+W hotkey-overlay-title="Change Wallpaper: noctalia-shell" { spawn-sh "qs -c noctalia-shell ipc call wallpaper toggle"; }
+    Mod+Alt+P hotkey-overlay-title="Session Menu" { spawn-sh "qs -c noctalia-shell ipc call sessionMenu toggle"; }
+    Mod+B hotkey-overlay-title="Open a Browser: Firefox" { spawn "firefox"; }
+    Mod+E hotkey-overlay-title="Open File Manager: yazi" { spawn-sh "kitty zsh -i -c yazi"; }
+    Mod+S hotkey-overlay-title="Open Spotify" { spawn "spotify"; }
 
-    // Example volume keys mappings for PipeWire & WirePlumber.
-    // The allow-when-locked=true property makes them work even when the session is locked.
-    // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
@@ -283,8 +326,6 @@ binds {
     XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
 
     Mod+TAB repeat=false { toggle-overview; }
-    // custom window selector with dmenu TODO
-    Mod+Shift+TAB repeat=false { spawn "~/.local/bin/nws.sh"; } 
 
     Mod+Q repeat=false { close-window; }
 
@@ -293,6 +334,8 @@ binds {
     Mod+Up    { focus-window-or-workspace-up; }
     Mod+Right { focus-column-right; }
     Mod+H     { focus-column-left; }
+    Mod+U     { focus-window-down; }
+    Mod+I     { focus-window-up; }
     Mod+L     { focus-column-right; }
 
     Mod+Ctrl+Left  { move-column-left; }
@@ -300,14 +343,9 @@ binds {
     Mod+Ctrl+Up    { move-window-up; }
     Mod+Ctrl+Right { move-column-right; }
     Mod+Ctrl+H     { move-column-left; }
+    Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+K     { move-window-up; }
     Mod+Ctrl+L     { move-column-right; }
-
-    // Alternative commands that move across workspaces when reaching
-    // the first or last window in a column.
-    Mod+J     { focus-window-or-workspace-down; }
-    Mod+K     { focus-window-or-workspace-up; }
-    Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
 
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
@@ -315,26 +353,30 @@ binds {
     Mod+Ctrl+End  { move-column-to-last; }
 
 
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
-    // ...
+    Mod+Shift+Left  { focus-monitor-left; }
+    Mod+Shift+Down  { focus-monitor-down; }
+    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Right { focus-monitor-right; }
+    Mod+Shift+H     { focus-monitor-left; }
+    Mod+Shift+J     { focus-monitor-down; }
+    Mod+Shift+K     { focus-monitor-up; }
+    Mod+Shift+L     { focus-monitor-right; }
 
-    // And you can also move a whole workspace to another monitor:
-    // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
-    // ...
+    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
-    Mod+U              { focus-workspace-down; }
-    Mod+I              { focus-workspace-up; }
     Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
     Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
     Mod+Ctrl+I         { move-column-to-workspace-up; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+Page_Down { move-window-to-workspace-down; }
-    // ...
 
     Mod+Shift+Page_Down { move-workspace-down; }
     Mod+Shift+Page_Up   { move-workspace-up; }
@@ -390,15 +432,15 @@ binds {
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
-    Mod+Ctrl+1 { move-column-to-workspace 1; }
-    Mod+Ctrl+2 { move-column-to-workspace 2; }
-    Mod+Ctrl+3 { move-column-to-workspace 3; }
-    Mod+Ctrl+4 { move-column-to-workspace 4; }
-    Mod+Ctrl+5 { move-column-to-workspace 5; }
-    Mod+Ctrl+6 { move-column-to-workspace 6; }
-    Mod+Ctrl+7 { move-column-to-workspace 7; }
-    Mod+Ctrl+8 { move-column-to-workspace 8; }
-    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
@@ -443,20 +485,20 @@ binds {
     // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
     // set-column-width "100" will make the column occupy 200 physical screen pixels.
     Mod+Minus { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
+    Mod+Plus { set-column-width "+10%"; }
 
     // Finer height adjustments when in column with other windows.
     Mod+Shift+Minus { set-window-height "-10%"; }
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
+    Mod+V   hotkey-overlay-title="Switch to floating"    { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
-    // Mod+W { toggle-column-tabbed-display; }
+    Mod+W { toggle-column-tabbed-display; }
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have
@@ -488,6 +530,4 @@ binds {
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
 }
-layer-rule {
-    place-within-backdrop true
-}
+include "noctalia.kdl"

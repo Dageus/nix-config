@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  pkgs,
+  inputs,
   ...
 }:
 let
@@ -14,6 +16,14 @@ in
     services.displayManager.sddm.enable = true;
     services.displayManager.sddm.wayland.enable = true;
 
-    programs.niri.enable = true;
+    programs.niri = {
+      enable = true;
+      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    };
+
+    # installing Noctalia here
+    environment.systemPackages = [
+      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
   };
 }

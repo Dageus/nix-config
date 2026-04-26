@@ -23,5 +23,8 @@
     tree-sitter
     wget
     curl
+
+    # spotify
+    spotify
   ];
 }

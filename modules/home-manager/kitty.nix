@@ -56,6 +56,7 @@ in {
         # system, background, #hex, or color name
         confirm_os_window_close = 0;
         background_opacity = "0.95";
+        background_blur = "1";
         wayland_titlebar_color = "background";
         dynamic_background_opacity = true;
         enable_audio_bell = false;

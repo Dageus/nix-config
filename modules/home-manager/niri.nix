@@ -1,12 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+let
+  noctaliaPkg = inputs.noctalia.packages.${pkgs.system}.default;
+in
 {
   home.packages = with pkgs; [
-    fuzzel
-    waybar
+    vicinae
+    yazi
   ];
 
   xdg.configFile."niri/config.kdl".source = ./niri/config.kdl;
-  xdg.configFile."swaylock/config".source = ./niri/swaylock.conf;
-  xdg.configFile."waybar/config".source = ./waybar/waybar.conf;
-  xdg.configFile."waybar/style.css".source = ./waybar/waybar.css;
+  xdg.configFile."niri/noctalia.kdl".source = ./niri/noctalia.kdl;
+
 }
