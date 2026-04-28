@@ -5,7 +5,8 @@
   self,
   inputs,
   ...
-}: let
+}:
+let
   inherit (lib) types mkIf mkOption;
   inherit (self.lib.modules) mkFirst;
   inherit (pkgs.stdenv.hostPlatform) system;
@@ -13,7 +14,8 @@
 
   # Rycee firefox-addons packages
   firefox-addons = inputs.firefox-addons.packages.${system};
-in {
+in
+{
   options.custom.browsers.firefox = {
     enable = mkOption {
       type = types.bool;
@@ -23,9 +25,13 @@ in {
   };
 
   config = mkIf cfg.enable {
+
+    stylix.targets.firefox.profileNames = [ "jomouzio" ];
+
     programs = {
       firefox = {
         enable = true;
+        configPath = "${config.xdg.configHome}/mozilla/firefox";
         profiles.jomouzio = {
           id = 0;
           name = "Jomouzio";
@@ -142,7 +148,8 @@ in {
             "media.peerconnection.ice.default_address_only" = true;
 
             # Use Mozilla geolocation service instead of Google
-            "geo.provider.network.url" = "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
+            "geo.provider.network.url" =
+              "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
 
             # Disable password manager   TODO Transition to 1password
             # "signon.rememberSignons" = false;

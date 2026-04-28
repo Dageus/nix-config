@@ -10,20 +10,16 @@ let
   enabled = config.custom.desktop.niri;
 in
 {
+  imports = [ inputs.niri.nixosModules.niri ];
+
+  disabledModules = [ "programs/niri.nix" ];
+
   options.custom.desktop.niri = lib.mkEnableOption "Niri desktop";
 
   config = mkIf enabled {
-    services.displayManager.sddm.enable = true;
-    services.displayManager.sddm.wayland.enable = true;
-
     programs.niri = {
       enable = true;
-      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
     };
-
-    # installing Noctalia here
-    environment.systemPackages = [
-      inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
-    ];
   };
 }

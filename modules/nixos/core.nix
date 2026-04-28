@@ -18,6 +18,9 @@
     # Allow users to mount removable drives
     services.udisks2.enable = true;
 
+    # VPN for home access
+    services.tailscale.enable = true;
+
     # Mark admins as trusted users
     nix.settings.trusted-users = [
       "@wheel"

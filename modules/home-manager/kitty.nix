@@ -45,6 +45,7 @@ in {
   config = mkIf cfg.enable {
     programs.kitty = {
       enable = true;
+      theme = "Rosé Pine";
 
       keybindings = {
         "ctrl+c" = "copy_and_clear_or_interrupt";
@@ -52,10 +53,12 @@ in {
       };
 
       settings = {
+        # my custom background color
+        background = lib.mkForce "#171717";
+
         shell = getExe (config.programs.zsh.package);
         # system, background, #hex, or color name
         confirm_os_window_close = 0;
-        background_opacity = "0.95";
         background_blur = "1";
         wayland_titlebar_color = "background";
         dynamic_background_opacity = true;
@@ -67,18 +70,19 @@ in {
       };
 
       # TODO use fonts defined in nix config
-      font = {
-        name = "IosevkaTerm Nerd Font Mono";
-        size = 12;
-      };
+      # NOTE: leave it to stylix
+      # font = {
+      #   name = "IosevkaTerm Nerd Font Mono";
+      #   size = 12;
+      # };
     };
 
     # TODO: upstream kitty auto-theme configs to home-manager:
     #       home-manager has a `programs.kitty.themeFile` option.
     #
     # NOTE: Some desktops, like GNOME, claim "no preference" when light mode is enabled.
-    xdg.configFile."kitty/dark-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.darkTheme}.conf";
-    xdg.configFile."kitty/light-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
-    xdg.configFile."kitty/no-preference-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
+    # xdg.configFile."kitty/dark-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.darkTheme}.conf";
+    # xdg.configFile."kitty/light-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
+    # xdg.configFile."kitty/no-preference-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
   };
 }

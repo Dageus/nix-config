@@ -60,7 +60,16 @@
     };
 
     niri = {
-      url = "github:YaLTeR/niri";
+      url = "github:sodiboo/niri-flake/very-refactor";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.niri-unstable = {
+        url = "github:YaLTeR/niri/main";
+        flake = false;
+      };
+    };
+
+    stylix = {
+      url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -77,7 +86,8 @@
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     ];
-    allow-import-from-derivation = false;
+    # just for testing
+    allow-import-from-derivation = true;
   };
 
   outputs =

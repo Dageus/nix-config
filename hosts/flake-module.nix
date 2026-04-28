@@ -39,6 +39,7 @@
           # NOTE: too early for this
           # inputs.impermanence.nixosModules.impermanence
           inputs.home-manager.nixosModules.home-manager
+          inputs.stylix.nixosModules.stylix
           {
             networking.hostName = lib.mkDefault name;
             users.users.${username} = {

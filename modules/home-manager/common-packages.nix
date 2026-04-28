@@ -21,7 +21,6 @@
     gzip
     gnutar
     tree-sitter
-    wget
     curl
 
     # spotify
