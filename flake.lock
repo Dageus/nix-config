@@ -459,10 +459,31 @@
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
+        "silentSDDM": "silentSDDM",
         "stylix": "stylix",
         "systems": "systems_3",
         "tmux-which-key": "tmux-which-key",
         "umu-launcher": "umu-launcher"
+      }
+    },
+    "silentSDDM": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775652648,
+        "narHash": "sha256-mLE7i9r9qenayJ8adWm22SbqUwLuopvRhyoizuZTtyo=",
+        "owner": "uiriansan",
+        "repo": "SilentSDDM",
+        "rev": "a0fb8a48de772c0340dd6639b331ebf6ec2eb554",
+        "type": "github"
+      },
+      "original": {
+        "owner": "uiriansan",
+        "repo": "SilentSDDM",
+        "type": "github"
       }
     },
     "stylix": {

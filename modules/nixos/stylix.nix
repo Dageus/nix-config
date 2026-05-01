@@ -10,12 +10,18 @@
 
     polarity = "dark";
 
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
 
     opacity = {
-      applications = 0.8; # This usually affects Fuzzel
-      terminal = 0.9;
+      applications = 0.8;
+      terminal = 0.7;
       popups = 0.8;
+    };
+
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 20;
     };
 
     fonts = {

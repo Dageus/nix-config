@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  inputs,
   ...
 }:
 let
@@ -8,6 +9,9 @@ let
   cfg = config.custom.login;
 in
 {
+
+  imports = [ inputs.silentSDDM.nixosModules.default ];
+
   options.custom.login = {
     manager = mkOption {
       type = types.enum [
@@ -23,10 +27,17 @@ in
       enable = true;
       wayland.enable = true;
       settings = {
-      General = {
-      inputMethod = "";
+        General = {
+          inputMethod = "";
         };
       };
     };
+
+    programs.silentSDDM = {
+      enable = true;
+      theme = "rei";
+      # settings = { ... }; see example in module
+    };
+
   };
 }

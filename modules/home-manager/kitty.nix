@@ -3,9 +3,9 @@
   config,
   pkgs,
   ...
-}: let
-  inherit
-    (lib)
+}:
+let
+  inherit (lib)
     types
     mkIf
     mkOption
@@ -13,7 +13,8 @@
     ;
 
   cfg = config.custom.terminal.kitty;
-in {
+in
+{
   options.custom.terminal.kitty = {
     enable = mkOption {
       type = types.bool;
@@ -43,6 +44,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # disable stylix for now
+    stylix.targets.kitty.enable = false;
+
     programs.kitty = {
       enable = true;
       theme = "Rosé Pine";
@@ -53,8 +57,8 @@ in {
       };
 
       settings = {
-        # my custom background color
         background = lib.mkForce "#171717";
+        background_opacity = lib.mkDefault (toString config.stylix.opacity.terminal);
 
         shell = getExe (config.programs.zsh.package);
         # system, background, #hex, or color name
@@ -63,26 +67,17 @@ in {
         wayland_titlebar_color = "background";
         dynamic_background_opacity = true;
         enable_audio_bell = false;
-        cursor_shape = "block";
+        cursor_shape = lib.mkForce "block";
         cursor_blink_interval = 0;
         shell_integration = "no-cursor";
         clipboard_control = "write-clipboard write-primary read-clipboard read-primary";
       };
 
-      # TODO use fonts defined in nix config
-      # NOTE: leave it to stylix
-      # font = {
-      #   name = "IosevkaTerm Nerd Font Mono";
-      #   size = 12;
-      # };
+      font = {
+        name = config.stylix.fonts.monospace.name;
+        package = config.stylix.fonts.monospace.package;
+        size = config.stylix.fonts.sizes.terminal;
+      };
     };
-
-    # TODO: upstream kitty auto-theme configs to home-manager:
-    #       home-manager has a `programs.kitty.themeFile` option.
-    #
-    # NOTE: Some desktops, like GNOME, claim "no preference" when light mode is enabled.
-    # xdg.configFile."kitty/dark-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.darkTheme}.conf";
-    # xdg.configFile."kitty/light-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
-    # xdg.configFile."kitty/no-preference-theme.auto.conf".source = "${pkgs.kitty-themes}/share/kitty-themes/themes/${cfg.lightTheme}.conf";
   };
 }
