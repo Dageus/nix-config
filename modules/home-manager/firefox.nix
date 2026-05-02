@@ -12,7 +12,6 @@ let
   inherit (pkgs.stdenv.hostPlatform) system;
   cfg = config.custom.browsers.firefox;
 
-  # Rycee firefox-addons packages
   firefox-addons = inputs.firefox-addons.packages.${system};
 in
 {
@@ -42,6 +41,7 @@ in
             refined-github
             violentmonkey
             privacy-badger
+            bitwarden
           ];
 
           search = {

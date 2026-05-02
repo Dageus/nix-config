@@ -60,6 +60,11 @@
     # NOTE: too early for this
     # impermanence.url = "github:nix-community/impermanence";
 
+    delta = {
+      url = "github:dandavison/delta";
+      flake = false;
+    };
+
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";

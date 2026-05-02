@@ -10,6 +10,8 @@
       settings = {
         user.name = "Dageus";
         user.email = "jomouzio@gmail.com";
+        format.signoff = true;
+        merge.conflictstyle = "zdiff3";
         init.defaultBranch = "main";
         pull.ff = true;
         pull.rebase = true;

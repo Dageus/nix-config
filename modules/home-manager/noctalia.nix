@@ -12,7 +12,15 @@
 
     settings = {
       general = {
-        radiusRatio = 0;
+        radiusRatio = 1;
+      };
+
+      colors = {
+        mOnPrimary = lib.mkForce config.lib.stylix.colors.withHashtag.base01;
+      };
+
+      location = {
+        autoLocate = true;
       };
 
       ui = {
