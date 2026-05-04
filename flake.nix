@@ -132,9 +132,6 @@
 
       imports = [
         ./devshell/flake-module.nix
-        # NOTE: eventually
-        # ./nvim/flake-module.nix
-        ./modules/flake-module.nix
         ./hosts/flake-module.nix
         ./isos/flake-module.nix
       ];
