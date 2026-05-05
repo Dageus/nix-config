@@ -1,60 +1,51 @@
-{ inputs, ... }:
+{ inputs, profiles, ... }:
 {
-  # new ===========================================================
-
-  # imports = [
-  #   ./hardware-configuration.nix
-  #   ./disks.nix
-  # ];
-
   my.user.name = "jomouzio";
   my.user.fullName = "Jomouzio";
   my.system.hostName = "laptop";
 
-  # old ===========================================================
+  imports = with profiles; [
 
-  imports = [
+    # TODO: we should do something about this being here
     inputs.hardware.nixosModules.common-cpu-intel
     "${inputs.hardware}/common/cpu/intel/kaby-lake"
     inputs.hardware.nixosModules.common-pc-laptop-ssd
     ./hardware-configuration.nix
     ./disks.nix
 
-    ../../profiles/laptop/sleep.nix
+    laptop.sleep
 
-    ../../profiles/hardware/bluetooth.nix
-    ../../profiles/hardware/battery.nix
-    ../../profiles/hardware/zram.nix
+    hardware.bluetooth
+    hardware.battery
+    hardware.zram
 
-    ../../profiles/editors/nvim.nix
+    editors.nvim
 
-    ../../profiles/system/nix.nix
-    ../../profiles/system/audio.nix
-    ../../profiles/system/locales.nix
-    ../../profiles/system/swappiness.nix
-    ../../profiles/networking/tailscale.nix
-    # ../../profiles/system/nix-helper.nix
-    ../../profiles/system/boot/systemd.nix
+    system.nix
+    system.audio
+    system.locales
+    system.swappiness
+    networking.tailscale
+    system.boot.systemd # Notice how rakeLeaves handles sub-folders perfectly!
 
-    ../../profiles/graphical/niri
+    graphical.niri
+    graphical.xdg
+    graphical.stylix
+    graphical.noctalia
+    graphical.file-explorer
+    graphical.vicinae
+    graphical.kitty
+    graphical.firefox
 
-    ../../profiles/graphical/xdg.nix
-    ../../profiles/graphical/stylix.nix
-    ../../profiles/graphical/noctalia.nix
-    ../../profiles/graphical/file-explorer.nix
-    ../../profiles/graphical/vicinae.nix
-    ../../profiles/graphical/kitty.nix
-    ../../profiles/graphical/firefox.nix
+    greeter.sddm
 
-    ../../profiles/greeter/sddm.nix
+    shell.zsh
+    shell.git
+    shell.tmux
+    shell.zoxide
+    shell.utils
 
-    ../../profiles/shell/zsh.nix
-    ../../profiles/shell/git.nix
-    ../../profiles/shell/tmux.nix
-    ../../profiles/shell/zoxide.nix
-    ../../profiles/shell/utils.nix
-
-    ../../profiles/virtualization/docker.nix
+    virtualization.docker
   ];
 
   boot.initrd.availableKernelModules = [
@@ -62,9 +53,7 @@
     "sd_mod"
   ];
 
-
-  # These are small enough to keep inline, but you could easily
-  # move them to a `profiles/hardware/laptop-basics.nix` later.
+  # TODO: these should be in a common profile or somewhere NOT here
   networking.networkmanager.enable = true;
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true;
