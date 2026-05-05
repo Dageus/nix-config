@@ -1,10 +1,10 @@
-{ inputs, user, ... }:
+{ inputs, ... }:
 {
-  imports = [
-    # 1. The Orchestrator (Wires up your user, Home Manager, and aliases)
-    ../../modules/home.nix
+  my.user.name = "jomouzio";
+  my.user.fullName = "Jomouzio";
+  my.system.hostName = "laptop";
 
-    # 2. Hardware Defines (Strictly for this laptop)
+  imports = [
     inputs.hardware.nixosModules.common-cpu-intel
     "${inputs.hardware}/common/cpu/intel/kaby-lake"
     inputs.hardware.nixosModules.common-pc-laptop-ssd
@@ -21,8 +21,7 @@
 
     ../../profiles/system/nix.nix
     ../../profiles/system/nix-helper.nix
-
-    ../../profiles/boot/systemd.nix
+    ../../profiles/system/boot/systemd.nix
 
     ../../profiles/graphical/niri
 
@@ -40,11 +39,10 @@
     ../../profiles/shell/git.nix
     ../../profiles/shell/tmux.nix
     ../../profiles/shell/zoxide.nix
+    ../../profiles/shell/utils.nix
 
     ../../profiles/virtualization/docker.nix
   ];
-
-  networking.hostName = "laptop";
 
   boot.initrd.availableKernelModules = [
     "usb_storage"
@@ -59,6 +57,4 @@
 
   # DO NOT CHANGE: https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
-
-  hm.home.stateVersion = "23.05";
 }

@@ -131,6 +131,7 @@
       systems = import inputs.systems;
 
       imports = [
+        ./modules/flake-module.nix
         ./devshell/flake-module.nix
         ./hosts/flake-module.nix
         ./isos/flake-module.nix

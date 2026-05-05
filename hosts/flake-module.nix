@@ -10,38 +10,16 @@ let
     inherit self inputs;
   };
 
-  guessUsername =
-    name:
-    let
-      parts = lib.splitString "@" name;
-      len = builtins.length parts;
-    in
-    if len == 2 then builtins.head parts else name;
-
-  guessHostname =
-    name:
-    let
-      parts = lib.splitString "@" name;
-      len = builtins.length parts;
-    in
-    lib.optionalString (len == 2) (builtins.elemAt parts 1);
-
   mkSystem =
     name:
     {
       system ? "x86_64-linux",
-      username ? "jomouzio",
-      fullname ? "Jomouzio",
-      modules ? [ ],
       ...
     }:
     inputs.nixpkgs.lib.nixosSystem {
       inherit system;
 
-      specialArgs = specialArgs // {
-        user = username;
-        userFullName = fullname;
-      };
+      specialArgs = { inherit self inputs; };
 
       modules = modules ++ [
         ./${name}
@@ -50,34 +28,11 @@ let
         inputs.home-manager.nixosModules.home-manager
         inputs.stylix.nixosModules.stylix
         inputs.silentSDDM.nixosModules.default
-      ];
-    };
 
-  mkHome =
-    name:
-    {
-      system ? null,
-      username ? guessUsername name,
-      hostname ? guessHostname name,
-      modules ? [ ],
-      ...
-    }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      extraSpecialArgs = specialArgs;
-      modules =
-        modules
-        ++ [
-          ./${hostname}/home.nix
-          self.homeModules.common
-          self.homeModules.home
-          {
-            home.username = username;
-            home.homeDirectory = "/home/${username}";
-          }
-        ]
-        ++ lib.optional (system != null) {
-          nixpkgs.hostPlatform = system;
-        };
+        self.nixosModules.options # my.* namespace
+        self.nixosModules.hmConnector # sets up hm alias + useGlobalPkgs
+        self.nixosModules.user # creates users.users.<name>
+      ];
     };
 
   mapConfigurationsBySystem' =
@@ -108,7 +63,8 @@ in
       desktop = { };
     };
 
-    homeConfigurations = builtins.mapAttrs mkHome { };
+    # my custom options
+    nixosModules = self.nixosModules.*
 
     checks = lib.mkMerge [
       (mapConfigurationsBySystem' (name: configuration: {
