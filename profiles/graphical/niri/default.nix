@@ -5,6 +5,11 @@
   ...
 }:
 {
+# TODO: for the future
+# options.my.profiles.graphical.niri.enable = lib.mkEnableOption "Niri compositor";
+#
+#   config = lib.mkIf config.my.profiles.graphical.niri.enable {
+
   imports = [ inputs.niri.nixosModules.niri ];
 
   programs.niri = {

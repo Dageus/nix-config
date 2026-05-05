@@ -226,6 +226,9 @@
               id = "Volume";
             }
             {
+              id = "Network";
+            }
+            {
               id = "Brightness";
             }
             {
