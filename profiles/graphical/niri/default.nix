@@ -5,10 +5,14 @@
   ...
 }:
 {
-# TODO: for the future
-# options.my.profiles.graphical.niri.enable = lib.mkEnableOption "Niri compositor";
-#
-#   config = lib.mkIf config.my.profiles.graphical.niri.enable {
+  # TODO: for the future
+  # options.my.profiles.graphical.niri.enable = lib.mkEnableOption "Niri compositor";
+  #
+  #   config = lib.mkIf config.my.profiles.graphical.niri.enable {
+
+  environment.systemPackages = [
+    pkgs.xwayland-satellite
+  ];
 
   imports = [ inputs.niri.nixosModules.niri ];
 
@@ -19,7 +23,6 @@
 
   programs.xwayland.enable = true;
 
-  # BUG: we need a better way to do this
   hm.programs.niri = {
     settings = {
       includes = lib.mkAfter [

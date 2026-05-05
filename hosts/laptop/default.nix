@@ -1,10 +1,21 @@
 { inputs, ... }:
 {
+  # new ===========================================================
+
+  # imports = [
+  #   ./hardware-configuration.nix
+  #   ./disks.nix
+  # ];
+
   my.user.name = "jomouzio";
   my.user.fullName = "Jomouzio";
   my.system.hostName = "laptop";
 
+  # old ===========================================================
+
   imports = [
+    # ../../modules/home.nix
+
     inputs.hardware.nixosModules.common-cpu-intel
     "${inputs.hardware}/common/cpu/intel/kaby-lake"
     inputs.hardware.nixosModules.common-pc-laptop-ssd
@@ -20,7 +31,10 @@
     ../../profiles/editors/nvim.nix
 
     ../../profiles/system/nix.nix
-    ../../profiles/system/nix-helper.nix
+    ../../profiles/system/audio.nix
+    ../../profiles/system/locales.nix
+    ../../profiles/system/swappiness.nix
+    # ../../profiles/system/nix-helper.nix
     ../../profiles/system/boot/systemd.nix
 
     ../../profiles/graphical/niri
@@ -49,6 +63,7 @@
     "sd_mod"
   ];
 
+
   # These are small enough to keep inline, but you could easily
   # move them to a `profiles/hardware/laptop-basics.nix` later.
   networking.networkmanager.enable = true;
@@ -57,4 +72,6 @@
 
   # DO NOT CHANGE: https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
+
+  hm.home.stateVersion = "23.05";
 }

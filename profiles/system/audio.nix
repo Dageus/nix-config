@@ -1,17 +1,17 @@
-{ ... }:
+{ lib, ... }:
 {
   # The nixos wiki recomends using rtkit with pipewire
   security.rtkit.enable = true;
 
   # pipewire and pulseaudio conflict
-  services.pulseaudio.enable = mkForce false;
+  services.pulseaudio.enable = lib.mkForce false;
 
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable = cfg.jack;
+    jack.enable = true;
     wireplumber.extraConfig = {
       "monitor.bluez.properties" = {
         "bluez5.enable-sbc-xq" = true;

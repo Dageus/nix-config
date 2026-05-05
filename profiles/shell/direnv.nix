@@ -1,3 +1,4 @@
+{ ... }:
 {
   hm.programs.direnv = {
     enable = true;

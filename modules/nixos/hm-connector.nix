@@ -1,10 +1,8 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
-  options.hm = lib.mkOption {
-    type = lib.types.attrsOf lib.types.raw;
-    default = { };
-    description = "Home-manager configuration for the primary user, automatically wired.";
-  };
+  imports = [
+    (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" config.my.user.name ])
+  ];
 
   config.home-manager = {
     useGlobalPkgs = true;

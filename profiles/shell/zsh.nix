@@ -2,6 +2,8 @@
 {
   hm.programs.bash.enable = true;
 
+  programs.zsh.enable = true;
+
   # Enable zsh shell
   hm.programs.zsh = {
     enable = true;
@@ -21,6 +23,7 @@
       plugins = [
         "git"
         "sudo"
+        "docker"
       ];
       theme = "robbyrussell";
     };

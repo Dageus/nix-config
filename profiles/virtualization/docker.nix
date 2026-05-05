@@ -1,6 +1,6 @@
-{ pkgs, user, ... }:
+{ pkgs, config, ... }:
 {
-  users.users.${user}.extraGroups = [
+  users.users.${config.my.user.name}.extraGroups = [
     "docker"
     "podman"
   ];

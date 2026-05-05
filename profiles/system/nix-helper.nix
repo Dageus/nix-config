@@ -1,4 +1,4 @@
-{ user, ... }:
+{ config, ... }:
 {
   programs.nh = {
     enable = true;
@@ -10,6 +10,6 @@
       extraArgs = "--keep-since 10d --keep 10";
     };
 
-    flake = "/home/${user}/nix-config";
+    flake = "/home/${config.my.user.name}/nix-config";
   };
 }
