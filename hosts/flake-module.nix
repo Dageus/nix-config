@@ -5,6 +5,10 @@
   ...
 }:
 let
+  myLib = import ../lib { inherit lib; };
+
+  profiles = myLib.rakeLeaves ../profiles;
+
   mkSystem =
     name:
     {

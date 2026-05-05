@@ -32,6 +32,7 @@
     ../../profiles/system/audio.nix
     ../../profiles/system/locales.nix
     ../../profiles/system/swappiness.nix
+    ../../profiles/networking/tailscale.nix
     # ../../profiles/system/nix-helper.nix
     ../../profiles/system/boot/systemd.nix
 
