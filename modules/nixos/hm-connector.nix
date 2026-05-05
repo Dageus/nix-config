@@ -1,16 +1,18 @@
-{ lib, config, ... }:
+{ lib, config, options, ... }:
 {
-  imports = [
-    (lib.mkAliasOptionModule [ "hm" ] [ "home-manager" "users" config.my.user.name ])
-  ];
+  options.hm = lib.mkOption {
+    type = lib.types.attrs;
+    default = { };
+    description = "Home-manager configuration alias";
+  };
 
-  config.home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    backupFileExtension = "backup";
+  config = {
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "backup";
+    };
 
-    # Alias so that every module can write hm.programs.xxx instead of
-    # home-manager.users.<username>.programs.xxx
-    users.${config.my.user.name} = config.hm;
+    home-manager.users.${config.my.user.name} = lib.mkAliasDefinitions options.hm;
   };
 }

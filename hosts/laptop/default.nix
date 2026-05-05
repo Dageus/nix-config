@@ -14,8 +14,6 @@
   # old ===========================================================
 
   imports = [
-    # ../../modules/home.nix
-
     inputs.hardware.nixosModules.common-cpu-intel
     "${inputs.hardware}/common/cpu/intel/kaby-lake"
     inputs.hardware.nixosModules.common-pc-laptop-ssd
