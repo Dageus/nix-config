@@ -5,11 +5,6 @@
   ...
 }:
 {
-  # TODO: for the future
-  # options.my.profiles.graphical.niri.enable = lib.mkEnableOption "Niri compositor";
-  #
-  #   config = lib.mkIf config.my.profiles.graphical.niri.enable {
-
   environment.systemPackages = [
     pkgs.xwayland-satellite
   ];

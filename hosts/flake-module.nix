@@ -5,9 +5,14 @@
   ...
 }:
 let
-  myLib = import ../lib { inherit lib; };
+  customLib = import ../lib { inherit lib; };
 
-  profiles = myLib.rakeLeaves ../profiles;
+  profiles = customLib.rakeLeaves ../profiles;
+
+  # TODO: next step
+  # allHosts = customLib.rakeLeaves ./.;
+  #
+  # validHosts = lib.filterAttrs (name: _: name != "flake-module") allHosts;
 
   mkSystem =
     name:
@@ -18,7 +23,7 @@ let
     inputs.nixpkgs.lib.nixosSystem {
       inherit system;
 
-      specialArgs = { inherit self inputs; };
+      specialArgs = { inherit self inputs profiles; };
 
       modules = [
         ./${name}
@@ -56,6 +61,9 @@ in
       laptop = { };
       desktop = { };
     };
+
+    # TODO: next step
+    # nixosConfigurations = extendedLib.mapAttrs (name: _: mkSystem name { }) validHosts;
 
     homeConfigurations = {
       "jomouzio@work" = mkHome "work" {

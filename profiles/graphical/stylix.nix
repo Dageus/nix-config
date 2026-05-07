@@ -1,4 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
+let
+  colors = config.lib.stylix.colors;
+in
 {
   stylix = {
     enable = true;
@@ -10,7 +13,7 @@
 
     polarity = "dark";
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
 
     opacity = {
       applications = 0.8;
@@ -45,6 +48,16 @@
         terminal = 12;
         applications = 11;
       };
+    };
+  };
+
+  hm.programs.noctalia-shell.settings = {
+    # You will need to check Noctalia's docs for their exact config keys,
+    # but the injection looks like this:
+    theme = {
+      primary_color = "#${colors.base0D}"; # Blue/Accent
+      background_color = "#${colors.base00}"; # Main background
+      text_color = "#${colors.base05}"; # Main text
     };
   };
 }

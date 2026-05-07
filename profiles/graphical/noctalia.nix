@@ -5,12 +5,15 @@
   inputs,
   ...
 }:
+let
+  colors = config.lib.stylix.colors.withHashtag;
+in
 {
   environment.systemPackages = [
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
-  # BUG: before I didn't need to do this. 
+  # BUG: before I didn't need to do this.
   # Is it because of the change to profiles?
   hm.imports = [
     inputs.noctalia.homeModules.default
@@ -21,11 +24,26 @@
 
     settings = {
       general = {
-        radiusRatio = 1;
+        radiusRatio = 0;
       };
 
       colors = {
-        mOnPrimary = lib.mkForce config.lib.stylix.colors.withHashtag.base01;
+        mPrimary = colors.base0D;
+        mOnPrimary = colors.base00;
+        mSecondary = colors.base0E;
+        mOnSecondary = colors.base00;
+        mTertiary = colors.base0C;
+        mOnTertiary = colors.base00;
+        mError = colors.base08;
+        mOnError = colors.base00;
+        mSurface = colors.base00;
+        mOnSurface = colors.base05;
+        mHover = colors.base0C;
+        mOnHover = colors.base00;
+        mSurfaceVariant = colors.base01;
+        mOnSurfaceVariant = colors.base04;
+        mOutline = colors.base03;
+        mShadow = colors.base00;
       };
 
       location = {
