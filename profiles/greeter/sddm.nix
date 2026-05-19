@@ -18,17 +18,14 @@
 
   programs.silentSDDM = {
     enable = true;
-    theme = "rei";
+    theme = "ken";
 
     backgrounds = {
       "${config.my.user.name}" = config.stylix.image;
     };
 
     profileIcons = {
-      "${config.my.user.name}" = pkgs.fetchurl {
-        url = "https://static.wikia.nocookie.net/bleach/images/e/e7/Ep386KenpachiProfile.png/revision/latest/scale-to-width-down/1200?cb=20230921204006&path-prefix=en";
-        hash = "sha256-BVuMPdMKfsDxvjC9NdlToMNG0jbWX263Bc6pTqlbehU=";
-      };
+      "${config.my.user.name}" = ../../config/profile/kenpachi.jpg;
     };
 
     settings = {

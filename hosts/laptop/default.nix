@@ -21,12 +21,14 @@
 
     editors.nvim
 
-    system.nix
+    system.boot.systemd
+
+    system.nix-config
+    system.nix-ld
+    system.nix-helper
     system.audio
     system.locales
     system.swappiness
-    networking.tailscale
-    system.boot.systemd # Notice how rakeLeaves handles sub-folders perfectly!
 
     graphical.niri
     graphical.xdg
@@ -36,16 +38,25 @@
     graphical.vicinae
     graphical.kitty
     graphical.firefox
+    graphical.spotify
+    graphical.syncthing
+    graphical.discord
 
     greeter.sddm
 
-    shell.zsh
+    shell.direnv
     shell.git
+    shell.nix-index
     shell.tmux
-    shell.zoxide
     shell.utils
+    shell.zoxide
+    shell.zsh
 
     virtualization.docker
+
+    networking.tailscale
+    networking.trust-lan
+    networking.networkmanager
   ];
 
   boot.initrd.availableKernelModules = [
@@ -53,13 +64,8 @@
     "sd_mod"
   ];
 
-  # TODO: these should be in a common profile or somewhere NOT here
-  networking.networkmanager.enable = true;
-  services.power-profiles-daemon.enable = true;
-  services.upower.enable = true;
-
   # DO NOT CHANGE: https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
+  system.stateVersion = "23.11";
 
-  hm.home.stateVersion = "23.05";
+  hm.home.stateVersion = "23.11";
 }

@@ -24,7 +24,12 @@ in
 
     settings = {
       general = {
-        radiusRatio = 0;
+        avatarImage = ../../config/profile/kenpachi.jpg;
+      };
+
+      wallpaper = {
+        enabled = true;
+        overviewEnabled = true;
       };
 
       colors = {
@@ -47,7 +52,7 @@ in
       };
 
       location = {
-        autoLocate = true;
+        name = "Lisboa";
       };
 
       ui = {
@@ -63,19 +68,6 @@ in
 
       dock = {
         enabled = false;
-        dockType = "attached";
-        groupApps = true;
-        indicatorOpacity = 0.6;
-        indicatorThickness = 3;
-        deadOpacity = 0.6;
-        floatingRatio = 1;
-        displayMode = "always_visible";
-        pinnedApps = [ "kitty" ];
-        position = "bottom";
-        showDockIndicator = true;
-        showLauncherIcon = true;
-        sitOnFrame = false;
-        size = 1.1;
       };
 
       audio = {
@@ -102,10 +94,6 @@ in
             id = "calender-month-card";
             enabled = true;
           }
-          {
-            id = "weather-card";
-            enabled = true;
-          }
         ];
       };
 
@@ -117,14 +105,6 @@ in
           }
           {
             id = "shortcuts-card";
-            enabled = true;
-          }
-          {
-            id = "audio-card";
-            enabled = true;
-          }
-          {
-            id = "brightness-card";
             enabled = true;
           }
           {
@@ -141,20 +121,9 @@ in
         position = "close_to_bar_button";
         shortcuts = [
           {
-            left = [
-              {
-                id = "Network";
-              }
-              {
-                id = "Bluetooth";
-              }
+            center = [
               {
                 id = "WallpaperSelector";
-              }
-            ];
-            right = [
-              {
-                id = "Notifications";
               }
               {
                 id = "PowerProfile";
@@ -191,12 +160,19 @@ in
 
       bar = {
         # general
-        position = "top";
-        barType = "simple";
-        frameRadius = 0;
+        position = "bottom";
+
+        margin = {
+          top = 0;
+          bottom = 0;
+          left = 12;
+          right = 12;
+        };
+
+        cornerRadius = 0;
         autoHideDelay = 500;
         autoShowDelay = 150;
-        backgroundOpacity = lib.mkForce 0.0;
+        backgroundOpacity = lib.mkForce 0.3;
         # ---
         density = "default";
         showOnWorkspaceSwitch = true;
@@ -222,6 +198,9 @@ in
         widgets = {
           left = [
             {
+              id = "Launcher";
+            }
+            {
               id = "Workspace";
             }
             {
@@ -242,6 +221,9 @@ in
             }
             {
               id = "Volume";
+            }
+            {
+              id = "Microphone";
             }
             {
               id = "Network";

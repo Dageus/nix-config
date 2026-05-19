@@ -85,6 +85,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # NOTE: we'll add it back once it has a homeModule
+    # noctalia = {
+    #   url = "github:noctalia-dev/noctalia-shell/v5";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+
     niri = {
       url = "github:sodiboo/niri-flake/very-refactor";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -106,6 +112,7 @@
 
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

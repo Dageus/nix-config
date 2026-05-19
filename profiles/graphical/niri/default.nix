@@ -81,6 +81,17 @@
         }
       ];
 
+      # Layer Rules =============================================================
+      layer-rules = [
+        {
+          matches = [
+            { namespace = "^noctalia-overview*"; }
+          ];
+
+          place-within-backdrop = true;
+        }
+      ];
+
       # Window Rules =============================================================
       window-rules = [
         {
@@ -128,7 +139,7 @@
 
       # Key Bindings =============================================================
       binds = {
-        "Mod+Shift+Slash".action.show-hotkey-overlay = [ ];
+        "Mod+Shift+Space".action.show-hotkey-overlay = [ ];
 
         "Mod+Space" = {
           action.spawn = [

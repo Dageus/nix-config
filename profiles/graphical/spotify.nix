@@ -9,22 +9,26 @@
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
-  networking.firewall.allowedUDPPorts = [ lib.my.ports.mdnsGoogleCast ];
+  networking.firewall.allowedUDPPorts = [ 5353 ]; # mDNS for Google Cast
 
-  home-manager.users.jomouzio.programs.spicetify = {
-    enable = true;
-    spotifyPackage = pkgs.spotify;
+  hm.programs.spicetify =
+    let
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+    in
+    {
+      enable = true;
+      spotifyPackage = pkgs.spotify;
 
-    theme = pkgs.spicetify.themes.comfy;
-    colorScheme = "Comfy";
+      theme = lib.mkForce spicePkgs.themes.comfy;
+      colorScheme = lib.mkForce "Comfy";
 
-    enabledExtensions = with pkgs.spicetify.extensions; [
-      fullAppDisplay
-      autoSkipVideo
-      shuffle # shuffle+
-      hidePodcasts
-    ];
+      enabledExtensions = with spicePkgs.extensions; [
+        fullAppDisplay
+        autoSkipVideo
+        shuffle # shuffle+
+        hidePodcasts
+      ];
 
-    enabledCustomApps = with pkgs.spicetify.apps; [ lyricsPlus ];
-  };
+      enabledCustomApps = with spicePkgs.apps; [ lyricsPlus ];
+    };
 }
