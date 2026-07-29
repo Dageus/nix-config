@@ -1,4 +1,9 @@
-{ inputs, profiles, ... }:
+{
+  inputs,
+  profiles,
+  pkgs,
+  ...
+}:
 {
   my.user.name = "jomouzio";
   my.user.fullName = "Jomouzio";
@@ -8,12 +13,15 @@
     enable = true;
   };
 
-    # TODO: we should do something about this being here
+  imports = with profiles; [
     inputs.hardware.nixosModules.common-cpu-intel
-    "${inputs.hardware}/common/cpu/intel/kaby-lake"
     inputs.hardware.nixosModules.common-pc-laptop-ssd
+    "${inputs.hardware}/common/cpu/intel/kaby-lake"
     ./hardware-configuration.nix
     ./disks.nix
+    ./home.nix
+
+    # Profiles =================================================================
 
     laptop.sleep
 
@@ -35,18 +43,20 @@
     graphical.niri
     graphical.xdg
     graphical.stylix
-    graphical.noctalia
     graphical.file-explorer
+    graphical.noctalia
     graphical.vicinae
     graphical.kitty
     graphical.firefox
     graphical.spotify
-    graphical.syncthing
+    # graphical.syncthing
     graphical.discord
+    graphical.mpv
 
     greeter.sddm
 
     shell.direnv
+    shell.fastfetch
     shell.git
     shell.nix-index
     shell.tmux
@@ -61,6 +71,16 @@
     networking.networkmanager
   ];
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.iosevka
+  ];
+
+  hm.home.packages = with pkgs; [
+    arandr
+    ani-cli
+    stremio-linux-shell
+  ];
+
   boot.initrd.availableKernelModules = [
     "usb_storage"
     "sd_mod"
@@ -68,6 +88,4 @@
 
   # DO NOT CHANGE: https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.11";
-
-  hm.home.stateVersion = "23.11";
 }
