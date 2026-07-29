@@ -31,6 +31,7 @@ let
         self.nixosModules.options # my.* namespace
         self.nixosModules.hmConnector # sets up hm alias + useGlobalPkgs
         self.nixosModules.user # creates users.users.<name>
+        self.nixosModules.sops # manages sops
 
         inputs.disko.nixosModules.default
         inputs.home-manager.nixosModules.home-manager

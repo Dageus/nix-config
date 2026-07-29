@@ -1,0 +1,26 @@
+# Also see https://github.com/Mic92/dotfiles/blob/d6114726d859df36ccaa32891c4963ae5717ef7f/nixos/.sops.yaml
+# for a more complex example.
+keys:
+  - &laptop age1xewxg8sf4tr8m22dnwe40fc8vunt4fgu7j4xh4sxw9a9nz6ssy4q329rml
+  - &desktop age1xewxg8sf4tr8m22dnwe40fc8vunt4fgu7j4xh4sxw9a9nz6ssy4q329rml
+creation_rules:
+  # Common secrets
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *laptop
+        - *desktop
+
+  # Laptop-specific
+  - path_regex: secrets/laptop/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *laptop
+        - *desktop
+
+  # Desktop-specific
+  - path_regex: secrets/desktop/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *laptop
+        - *desktop
