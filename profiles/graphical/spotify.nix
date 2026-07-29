@@ -13,22 +13,30 @@
 
   hm.programs.spicetify =
     let
-      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+      spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
     in
     {
       enable = true;
       spotifyPackage = pkgs.spotify;
 
-      theme = lib.mkForce spicePkgs.themes.comfy;
-      colorScheme = lib.mkForce "Comfy";
+      theme = lib.mkForce spicePkgs.themes.sleek;
+      colorScheme = lib.mkForce "BladeRunner";
 
       enabledExtensions = with spicePkgs.extensions; [
         fullAppDisplay
         autoSkipVideo
-        shuffle # shuffle+
+        shuffle
         hidePodcasts
       ];
 
-      enabledCustomApps = with spicePkgs.apps; [ lyricsPlus ];
+      enabledSnippets = with spicePkgs.snippets; [
+        rotatingCoverart
+        pointer
+      ];
+
+      enabledCustomApps = with spicePkgs.apps; [
+        lyricsPlus
+        ncsVisualizer
+      ];
     };
 }

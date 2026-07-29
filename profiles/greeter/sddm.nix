@@ -18,14 +18,14 @@
 
   programs.silentSDDM = {
     enable = true;
-    theme = "ken";
+    theme = "silvia";
 
     backgrounds = {
       "${config.my.user.name}" = config.stylix.image;
     };
 
     profileIcons = {
-      "${config.my.user.name}" = ../../config/profile/kenpachi.jpg;
+      "${config.my.user.name}" = ../../config/profile/kisuke_urahara.jpg;
     };
 
     settings = {

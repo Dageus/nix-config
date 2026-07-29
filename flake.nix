@@ -49,16 +49,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    agenix-rekey = {
-      url = "github:oddlama/agenix-rekey";
     };
 
     # NOTE: too early for this
     # impermanence.url = "github:nix-community/impermanence";
+
+    vicinae-extensions = {
+      url = "github:vicinaehq/extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     delta = {
       url = "github:dandavison/delta";
@@ -81,23 +83,13 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # NOTE: we'll add it back once it has a homeModule
-    # noctalia = {
-    #   url = "github:noctalia-dev/noctalia-shell/v5";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-
     niri = {
-      url = "github:sodiboo/niri-flake/very-refactor";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.niri-unstable = {
-        url = "github:YaLTeR/niri/main";
-        flake = false;
-      };
     };
 
     stylix = {

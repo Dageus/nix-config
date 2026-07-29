@@ -16,6 +16,7 @@ let
 in
 {
   hm.stylix.targets.firefox.profileNames = [ "jomouzio" ];
+  hm.stylix.targets.firefox.enable = true;
 
   hm.programs = {
     firefox = {

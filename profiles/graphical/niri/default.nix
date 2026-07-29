@@ -5,25 +5,48 @@
   ...
 }:
 {
+  programs.niri.enable = true;
+
   environment.systemPackages = [
     pkgs.xwayland-satellite
+    pkgs.gpu-screen-recorder
   ];
 
-  imports = [ inputs.niri.nixosModules.niri ];
+  environment.pathsToLink = [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
 
-  programs.niri = {
+  xdg.portal = {
     enable = true;
-    package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config = {
+      common = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+      };
+      niri = {
+        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
+    };
   };
+
+  imports = [ inputs.niri.nixosModules.niri ];
 
   programs.xwayland.enable = true;
 
   hm.programs.niri = {
-    settings = {
-      includes = lib.mkAfter [
-        (./blur.kdl)
-      ];
+    package = inputs.niri.packages.${pkgs.system}.niri-unstable;
 
+    # TODO:
+    # config = lib.mkAfter [ ./blur.kdl ];
+
+    settings = {
       # General Settings =========================================================
       prefer-no-csd = true;
       screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
@@ -72,7 +95,12 @@
 
       # Startup Apps =============================================================
       spawn-at-startup = [
-        { command = [ "noctalia-shell" ]; }
+        {
+          command = [
+            "noctalia"
+            "-d"
+          ];
+        }
         {
           command = [
             "vicinae"
@@ -94,6 +122,12 @@
 
       # Window Rules =============================================================
       window-rules = [
+        # {
+        #   background-effect = {
+        #     blur = true;
+        #     xray = true;
+        #   };
+        # }
         {
           matches = [
             { app-id = "kitty-float"; }
@@ -104,30 +138,15 @@
         }
         {
           matches = [
-            { app-id = "firefox$"; }
-            { title = "^Picture-in-Picture$"; }
-          ];
-          open-floating = true;
-        }
-        {
-          matches = [
             { app-id = "kitty"; }
           ];
           clip-to-geometry = true;
-          # background-effect = {
-          #   blur = true;
-          #   xray = true;
-          # };
         }
         {
           matches = [
             { app-id = "firefox"; }
           ];
           draw-border-with-background = false;
-          # background-effect = {
-          #   blur = true;
-          #   xray = true;
-          # };
         }
         {
           matches = [
@@ -188,27 +207,18 @@
           action.spawn = [
             "sh"
             "-c"
-            "noctalia-shell ipc call lockScreen lock"
+            "noctalia msg session lock"
           ];
-          hotkey-overlay.title = "Lock the Screen: noctalia-shell";
+          hotkey-overlay.title = "Lock the Screen: noctalia";
         };
         "Mod+Shift+W" = {
           action.spawn = [
             "sh"
             "-c"
-            "noctalia-shell ipc call wallpaper toggle"
+            "noctalia msg wallpaper-random"
           ];
-          hotkey-overlay.title = "Change Wallpaper: noctalia-shell";
+          hotkey-overlay.title = "Change Wallpaper: noctalia";
         };
-        "Mod+Alt+P" = {
-          action.spawn = [
-            "sh"
-            "-c"
-            "noctalia-shell ipc call sessionMenu toggle"
-          ];
-          hotkey-overlay.title = "Session Menu";
-        };
-
         "Ctrl+Shift+Escape" = {
           action.spawn = [
             "sh"
@@ -224,7 +234,7 @@
           action.spawn = [
             "sh"
             "-c"
-            "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"
+            "noctalia msg volume-up"
           ];
         };
         "XF86AudioLowerVolume" = {
@@ -232,7 +242,7 @@
           action.spawn = [
             "sh"
             "-c"
-            "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"
+            "noctalia msg volume-down"
           ];
         };
         "XF86AudioMute" = {
@@ -240,7 +250,7 @@
           action.spawn = [
             "sh"
             "-c"
-            "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+            "noctalia msg volume-mute"
           ];
         };
         "XF86AudioMicMute" = {
@@ -248,7 +258,7 @@
           action.spawn = [
             "sh"
             "-c"
-            "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+            "noctalia msg mic-mute"
           ];
         };
         "XF86AudioPlay" = {
@@ -288,19 +298,27 @@
         "XF86MonBrightnessUp" = {
           allow-when-locked = true;
           action.spawn = [
-            "brightnessctl"
-            "--class=backlight"
-            "set"
-            "+10%"
+            "sh"
+            "-c"
+            "noctalia msg brightness-up"
           ];
         };
         "XF86MonBrightnessDown" = {
           allow-when-locked = true;
           action.spawn = [
-            "brightnessctl"
-            "--class=backlight"
-            "set"
-            "10%-"
+            "sh"
+            "-c"
+            "noctalia msg brightness-down"
+          ];
+        };
+
+        # Power
+        "Mod+P" = {
+          action.spawn = [
+            "noctalia"
+            "msg"
+            "panel-toggle"
+            "session"
           ];
         };
 
@@ -399,10 +417,33 @@
         "Print".action.screenshot = [ ];
         "Ctrl+Print".action.screenshot-screen = [ ];
         "Alt+Print".action.screenshot-window = [ ];
+
+        # Screen record
+        "Mod+Shift+R" = {
+          action.spawn = [
+            "noctalia"
+            "msg"
+            "plugin"
+            "noctalia/screen_recorder:service"
+            "all"
+            "toggle"
+          ];
+        };
+
+        "Mod+Ctrl+R" = {
+          action.spawn = [
+            "noctalia"
+            "msg"
+            "plugin"
+            "noctalia/screen_recorder:service"
+            "toggle"
+            "focused"
+          ];
+        };
       };
 
       # Noctalia Debug Compatibility
-      debug.honor-xdg-activation-with-invalid-serial = true;
+      debug.honor-xdg-activation-with-invalid-serial = { };
     };
   };
 }

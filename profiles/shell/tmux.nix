@@ -6,12 +6,7 @@
   ...
 }:
 let
-  inherit (lib)
-    types
-    mkOption
-    mkIf
-    getExe
-    ;
+  inherit (lib) getExe;
 
   # Package Kanagawa directly from GitHub
   tmux-kanagawa = pkgs.tmuxPlugins.mkTmuxPlugin {
@@ -20,12 +15,11 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "Nybkox";
       repo = "tmux-kanagawa";
-      rev = "master"; # You can pin this to a specific commit hash later!
+      rev = "master";
       hash = "sha256-jOcGNKb8QrIgT7l3D3RiJOPIC9JU1rOy8tk0x5ULrdc=";
     };
   };
 
-  # Make a tmux plugin, with optional extraConfig
   mkPlugin =
     attrs:
     let
@@ -53,33 +47,26 @@ let
   ];
 in
 {
+  hm.stylix.targets.tmux.enable = false;
   hm.programs.tmux = {
     enable = true;
 
     prefix = "C-Space";
     baseIndex = 1;
-    escapeTime = 10; # Prevent Esc delay
+    escapeTime = 10;
     mouse = true;
     clock24 = true;
     keyMode = "vi";
-    newSession = true; # Spawn when failing to attach
     historyLimit = 10000;
 
-    shell = getExe pkgs.zsh; # Use zsh
-    terminal = "tmux-256color"; # Enable 256bit color
-
-    extraConfig = ''
-      set-option -sa terminal-features ',xterm-256color:RGB'
-      set-option -g focus-events on
-      set-option -g status-position bottom
-    '';
+    shell = getExe pkgs.zsh;
+    terminal = "tmux-256color";
 
     plugins =
       with pkgs.tmuxPlugins;
       [
         sensible
         yank
-        continuum
         copycat
         open
         vim-tmux-navigator
@@ -93,30 +80,38 @@ in
           '';
         }
 
-        # Your custom Kanagawa theme!
-        {
-          plugin = tmux-kanagawa;
-          extraConfig = ''
-            set -g @kanagawa-theme 'wave'
-            set -g @kanagawa-ignore-window-colors true
-            set -g @kanagawa-show-powerline true
-            set -g @kanagawa-show-left-icon smiley
-            set -g @kanagawa-border-contrast true
-            set -g @kanagawa-show-empty-plugins false
-            set -g @kanagawa-synchronize-panes-label "Sync"
-            set -g @kanagawa-show-ssh-session-port true
-            set -g @kanagawa-network-bandwidth "wlp2s0"
-            set -g @kanagawa-git-disable-status false
-            set -g @kanagawa-git-show-current-symbol ✓
-            set -g @kanagawa-git-show-diff-symbol !
-            set -g @kanagawa-day-month true
-            set -g @kanagawa-show-timezone false
-            set -g @kanagawa-military-time true
-            set -g @kanagawa-ram-usage-label "RAM"
-          '';
-        }
+        # Continuum must be defined AFTER resurrect
+        continuum
       ]
       ++ extraPlugins;
+
+    extraConfig = ''
+      set-option -as terminal-features ",*:RGB"
+      set-option -as terminal-overrides ",*:Tc"
+      set-option -g focus-events on
+      set-option -g status-position bottom
+
+      set -g @kanagawa-theme 'wave'
+      set -g @kanagawa-ignore-window-colors true
+      set -g @kanagawa-show-powerline true
+      set -g @kanagawa-show-left-icon smiley
+      set -g @kanagawa-border-contrast true
+      set -g @kanagawa-show-empty-plugins false
+      set -g @kanagawa-synchronize-panes-label "Sync"
+      set -g @kanagawa-show-ssh-session-port true
+      set -g @kanagawa-network-bandwidth "wlp2s0"
+      set -g @kanagawa-git-disable-status false
+      set -g @kanagawa-git-show-current-symbol ✓
+      set -g @kanagawa-git-show-diff-symbol !
+      set -g @kanagawa-day-month true
+      set -g @kanagawa-show-timezone false
+      set -g @kanagawa-military-time true
+      set -g @kanagawa-ram-usage-label "RAM"
+      set -g @kanagawa-plugins "workspaces git battery clock"
+
+      # Manual path execution fix
+      run-shell "CURRENT_DIR=${tmux-kanagawa}/share/tmux-plugins/tmux-kanagawa ${tmux-kanagawa}/share/tmux-plugins/tmux-kanagawa/tmux_kanagawa.tmux"
+    '';
   };
 
   hm.xdg.configFile = {

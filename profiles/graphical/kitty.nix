@@ -4,7 +4,8 @@
 
   hm.programs.kitty = {
     enable = true;
-    theme = "Rosé Pine";
+    # themeFile = "rose-pine";
+    themeFile = "kanagawabones";
 
     keybindings = {
       "ctrl+c" = "copy_and_clear_or_interrupt";

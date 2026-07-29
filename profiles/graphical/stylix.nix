@@ -11,11 +11,21 @@ in
   stylix = {
     enable = true;
 
-    image = ../../config/wallpapers/izakaya.jpg;
+    # NOTE: FUTURE
+    # image = config.my.system.wallpaper;
+
+    image = ../../config/wallpapers/Sekiro.png;
 
     polarity = "dark";
 
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine-moon.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-material-dark-hard.yaml";
+
+    icons = {
+      enable = true;
+      package = pkgs.papirus-icon-theme;
+      dark = "Papirus-Dark";
+      light = "Papirus-Light";
+    };
 
     opacity = {
       applications = 0.8;
@@ -52,5 +62,4 @@ in
       };
     };
   };
-
 }

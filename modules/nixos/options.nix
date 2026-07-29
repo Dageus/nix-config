@@ -33,5 +33,10 @@ with lib;
         description = "System form factor / role";
       };
     };
+    system.wallpaper = mkOption {
+      type = types.path;
+      description = "Global path to the active system wallpaper";
+      default = ../../config/wallpapers/Elden_Ring_Castle.png;
+    };
   };
 }

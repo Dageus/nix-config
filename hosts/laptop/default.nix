@@ -4,7 +4,9 @@
   my.user.fullName = "Jomouzio";
   my.system.hostName = "laptop";
 
-  imports = with profiles; [
+  my.secrets.sops = {
+    enable = true;
+  };
 
     # TODO: we should do something about this being here
     inputs.hardware.nixosModules.common-cpu-intel
