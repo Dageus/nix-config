@@ -14,7 +14,7 @@
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
-  hm.stylix.targets.noctalia-shell.enable = true;
+  hm.stylix.targets.noctalia.enable = false;
 
   hm.programs.noctalia = {
     package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
@@ -27,7 +27,7 @@
         community_palette = "GruvboxAlt";
         mode = "dark";
         templates = {
-          bultin_ids = [
+          builtin_ids = [
             "btop"
             "niri"
           ];
@@ -69,9 +69,6 @@
           session_placement = "centered";
           control_center_placement = "floating";
           open_near_click_control_center = true;
-          launcher_categories = false;
-          launcher_compact = true;
-          launcher_show_icons = true;
         };
         session.actions = [
           {
@@ -130,7 +127,6 @@
         };
         volume = {
           show_label = true;
-          scroll_step = 5;
           device = "output";
         };
         notifications.hide_when_no_unread = false;
@@ -149,6 +145,9 @@
           # TODO:
           # custom_image = "${self}/files/icons/swarsel.png";
           custom_image_colorize = true;
+        };
+        "game_launcher" = {
+          type = "alexander/game-launcher:launcher";
         };
       };
 
@@ -208,7 +207,7 @@
       bar.default = {
         position = "bottom";
         color = "on_surface";
-        background_opacity = 0.8;
+        # background_opacity = 0.8;
         padding = 14;
         border_width = 0.0;
         radius = 0;
@@ -222,7 +221,8 @@
         start = [
           "launcher"
           "workspaces"
-          "noctalia/screen_recorder:recorder"
+          "recorder"
+          "game_launcher"
         ];
         center = [
           "media"
@@ -237,6 +237,14 @@
           "clock"
           "session"
         ];
+
+        dead_zone = {
+          actions = {
+            scroll_down = "brightness-down";
+            scroll_up = "brightness-up";
+          };
+        };
+
       };
 
       control_center = {
@@ -278,12 +286,12 @@
         grid = {
           cell_size = 64;
           major_interval = 4;
-          visible = true; # Set to false once you finish positioning items so you don't see the grid lines
+          visible = true;
         };
         widget = {
           "lockscreen-login-box@eDP-1" = {
             type = "login_box";
-            output = "eDP-1"; # Corrected target
+            output = "eDP-1";
             cx = 853.5;
             cy = 981.5;
             box_width = 0.0;
@@ -300,7 +308,7 @@
             box_height = 192.0;
             rotation = 0.0;
             enabled = true;
-            settings.background = false;
+            settings.background = true;
           };
           lockscreen-widget-0000000000000002 = {
             type = "sticker";
@@ -313,7 +321,7 @@
             enabled = true;
             settings = {
               background = false;
-              # image_path = "${self}/Pictures/Wallpapers/Elden_Ring_Logo.png";
+              image_path = ../../config/profile/kisuke_urahara.jpg;
               opacity = 1.0;
             };
           };
@@ -324,13 +332,13 @@
         enable_daemon = true;
         position = "top_right";
         layer = "overlay";
-        background_opacity = 0.5;
+        # background_opacity = 0.5;
       };
 
       osd = {
-        position = "center_right";
+        position = "right";
         orientation = "vertical";
-        background_opacity = 0.5;
+        # background_opacity = 0.5;
       };
 
       audio = {
@@ -357,20 +365,20 @@
         ram_pct_critical_threshold = 90.0;
         swap_pct_activity_threshold = 80.0;
         swap_pct_critical_threshold = 90.0;
-        disk_pct_activity_threshold = 80.0;
-        disk_pct_critical_threshold = 90.0;
       };
 
       desktop_widgets.enabled = false;
 
-      plugins.enabled = [ "noctalia/screen_recorder" ];
+      plugins.enabled = [
+        "noctalia/screen_recorder"
+        "alexander/game-launcher"
+      ];
 
       plugin_settings."noctalia/screen_recorder" = {
         video_source = "portal";
         filename_pattern = "recording_%Y%m%d_%H%M%S";
         frame_rate = 60;
         video_codec = "h264";
-        quality = "very_high";
         resolution = "original";
         audio_source = "default_output";
         audio_codec = "opus";

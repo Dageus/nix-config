@@ -40,6 +40,8 @@
     system.locales
     system.swappiness
 
+    services.ssh
+
     graphical.niri
     graphical.xdg
     graphical.stylix
@@ -61,6 +63,7 @@
     shell.nix-index
     shell.tmux
     shell.utils
+    shell.yazi
     shell.zoxide
     shell.zsh
 

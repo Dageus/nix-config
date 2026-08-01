@@ -5,7 +5,8 @@
   hm.programs.kitty = {
     enable = true;
     # themeFile = "rose-pine";
-    themeFile = "kanagawabones";
+    # themeFile = "kanagawa_dragon";
+    themeFile = "GruvboxMaterialDarkHard";
 
     keybindings = {
       "ctrl+c" = "copy_and_clear_or_interrupt";
