@@ -1,5 +1,14 @@
 { pkgs, ... }:
 {
+  environment.systemPackages = [
+    pkgs.tree-sitter
+    pkgs.gcc
+    pkgs.unzip
+    pkgs.go
+    pkgs.nodejs
+    pkgs.python3
+  ];
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
