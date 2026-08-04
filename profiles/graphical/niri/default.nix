@@ -6,39 +6,34 @@
 }:
 {
   programs.niri.enable = true;
+  programs.gpu-screen-recorder.enable = true;
+  programs.xwayland.enable = true;
 
   environment.systemPackages = [
     pkgs.xwayland-satellite
-    pkgs.gpu-screen-recorder
   ];
 
-  environment.pathsToLink = [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
+  # environment.pathsToLink = [
+  #   "/share/applications"
+  #   "/share/xdg-desktop-portal"
+  # ];
 
   xdg.portal = {
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gnome
-      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
     ];
     config = {
-      common = {
-        default = [
-          "gnome"
-          "gtk"
-        ];
-      };
+      common.default = [ "gnome" ];
       niri = {
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "gnome" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
       };
     };
   };
 
   imports = [ inputs.niri.nixosModules.niri ];
-
-  programs.xwayland.enable = true;
 
   hm.programs.niri = {
     package = inputs.niri.packages.${pkgs.system}.niri-unstable;
@@ -444,6 +439,7 @@
 
       # Noctalia Debug Compatibility
       debug.honor-xdg-activation-with-invalid-serial = { };
+      # debug.honor-xdg-activation-with-invalid-serial = true;
     };
   };
 }
