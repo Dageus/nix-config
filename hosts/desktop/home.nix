@@ -1,5 +1,5 @@
 { lib, ... }:
 {
   # https://wiki.nixos.org/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.05";
+  hm.home.stateVersion = "23.11";
 }

@@ -7,7 +7,7 @@
 {
   my.user.name = "jomouzio";
   my.user.fullName = "Jomouzio";
-  my.system.hostName = "laptop";
+  my.system.hostName = "desktop";
 
   my.secrets.sops = {
     enable = true;
@@ -31,7 +31,7 @@
 
     editors.nvim
 
-    system.boot.systemd
+    system.boot.grub
 
     system.nix-config
     system.nix-ld
@@ -41,6 +41,10 @@
     system.swappiness
 
     services.ssh
+
+    games.steam
+    games.launchers
+    games.emulators
 
     graphical.niri
     graphical.xdg
@@ -54,12 +58,14 @@
     # graphical.syncthing
     graphical.discord
     graphical.mpv
+    graphical.obs
 
     greeter.sddm
 
     shell.direnv
     shell.fastfetch
     shell.git
+    shell.gpg
     shell.nix-index
     shell.tmux
     shell.utils
