@@ -2,7 +2,7 @@
 # for a more complex example.
 keys:
   - &laptop age1xewxg8sf4tr8m22dnwe40fc8vunt4fgu7j4xh4sxw9a9nz6ssy4q329rml
-  - &desktop age1xewxg8sf4tr8m22dnwe40fc8vunt4fgu7j4xh4sxw9a9nz6ssy4q329rml
+  - &desktop age1lut8udzmgyd4nj8p6pz485u8ae7crv7ck27j0jcn77kqw2k7rfgq0cuhna
 creation_rules:
   # Common secrets
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
@@ -16,11 +16,9 @@ creation_rules:
     key_groups:
       - age:
         - *laptop
-        - *desktop
 
   # Desktop-specific
   - path_regex: secrets/desktop/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *laptop
         - *desktop
