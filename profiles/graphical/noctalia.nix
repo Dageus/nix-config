@@ -5,6 +5,12 @@
   inputs,
   ...
 }:
+let
+  screenWidth = 1920.0;
+  screenHeight = 1080.0;
+
+  centerX = screenWidth / 2.0;
+in
 {
   hm.imports = [
     inputs.noctalia.homeModules.default
@@ -12,6 +18,7 @@
 
   environment.systemPackages = [
     inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.pulseaudio
   ];
 
   hm.stylix.targets.noctalia.enable = false;
@@ -125,10 +132,6 @@
           hidden = [ "bluetooth" ];
           drawer = true;
         };
-        volume = {
-          show_label = true;
-          device = "output";
-        };
         notifications.hide_when_no_unread = false;
         network.show_label = false;
         battery = {
@@ -148,6 +151,12 @@
         };
         "game_launcher" = {
           type = "alexander/game-launcher:launcher";
+        };
+        "recorder" = {
+          type = "noctalia/screen_recorder";
+        };
+        "audio_switcher" = {
+          type = "blackbartblues/audio-switcher:widget";
         };
       };
 
@@ -210,7 +219,7 @@
         # background_opacity = 0.8;
         padding = 14;
         border_width = 0.0;
-        radius = 0;
+        capsule_radius = 3;
         widget_spacing = 8;
         margin_ends = 6;
         margin_edge = 6;
@@ -230,21 +239,13 @@
         end = [
           "tray"
           "network"
-          "volume"
+          "audio_switcher"
           "brightness"
           "bluetooth"
           "battery"
           "clock"
           "session"
         ];
-
-        dead_zone = {
-          actions = {
-            scroll_down = "brightness-down";
-            scroll_up = "brightness-up";
-          };
-        };
-
       };
 
       control_center = {
@@ -292,8 +293,8 @@
           "lockscreen-login-box@eDP-1" = {
             type = "login_box";
             output = "eDP-1";
-            cx = 853.5;
-            cy = 981.5;
+            cx = centerX;
+            cy = screenHeight * 0.9;
             box_width = 0.0;
             box_height = 0.0;
             rotation = 0.0;
@@ -302,8 +303,8 @@
           lockscreen-widget-0000000000000001 = {
             type = "fancy_audio_visualizer";
             output = "eDP-1";
-            cx = 853.5;
-            cy = 789.5;
+            cx = centerX;
+            cy = screenHeight * 0.4;
             box_width = 192.0;
             box_height = 192.0;
             rotation = 0.0;
@@ -313,14 +314,14 @@
           lockscreen-widget-0000000000000002 = {
             type = "sticker";
             output = "eDP-1";
-            cx = 853.5;
-            cy = 533.5;
+            cx = centerX;
+            cy = screenHeight * 0.4;
             box_width = 0.0;
             box_height = 0.0;
             rotation = 0.0;
             enabled = true;
             settings = {
-              background = false;
+              background = true;
               image_path = ../../config/profile/kisuke_urahara.jpg;
               opacity = 1.0;
             };
@@ -332,13 +333,12 @@
         enable_daemon = true;
         position = "top_right";
         layer = "overlay";
-        # background_opacity = 0.5;
       };
 
       osd = {
         position = "right";
         orientation = "vertical";
-        # background_opacity = 0.5;
+        position_vertical = "center_right";
       };
 
       audio = {
@@ -372,10 +372,12 @@
       plugins.enabled = [
         "noctalia/screen_recorder"
         "alexander/game-launcher"
+        "blackbartblues/audio-switcher"
       ];
 
       plugin_settings."noctalia/screen_recorder" = {
-        video_source = "portal";
+        # WARNING: using "portal" completely breaks gpu-screen-recorder for some reason
+        video_source = "focused";
         filename_pattern = "recording_%Y%m%d_%H%M%S";
         frame_rate = 60;
         video_codec = "h264";

@@ -16,14 +16,13 @@ in
       default-cache-ttl-ssh = 8 * h;
       max-cache-ttl = 128 * y;
       max-cache-ttl-ssh = 128 * y;
-      grab = true; # Replaces grabKeyboardAndMouse
     };
   };
 
   hm.programs.gpg = {
     enable = true;
     # settings = {
-    #   default-key = "7082 22EA 1808 E39A 83AC  8B18 4F91 844C ED1A 8299";
+    #   default-key = "25F9 30DB 5C01 0438 636B  471A 5590 CFAB 184A 8968";
     # };
   };
 }
