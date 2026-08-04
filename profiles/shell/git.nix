@@ -3,8 +3,8 @@
   hm.programs.git = {
     enable = true;
     signing = {
-      key = "ED1A8299";
-      signByDefault = false;
+      key = "5590CFAB184A8968";
+      signByDefault = true;
     };
     settings = {
       user.name = "Dageus";
@@ -17,6 +17,9 @@
       rebase.autosquash = true;
       help.autoCorrect = "prompt";
       color.ui = "auto";
+    };
+    extraConfig = {
+      gpg.format = "openpgp";
     };
   };
 
