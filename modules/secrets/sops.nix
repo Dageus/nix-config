@@ -18,10 +18,15 @@ in
 
   options.my.secrets.sops = {
     enable = mkEnableOption "Global SOPS secret management";
-    defaultSopsFile = lib.mkOption {
-      type = lib.types.path;
+    defaultSopsFile = mkOption {
+      type = types.path;
       default = ../../secrets + "/${config.my.system.hostName}/secrets.yaml";
-      description = "Path to the default secrets file for this host.";
+      description = "Path to the default (host-specific) secrets file for this host.";
+    };
+    commonSopsFile = mkOption {
+      type = types.path;
+      default = ../../secrets/common.yaml;
+      description = "Path to the shared secrets file, usable by any profile regardless of nesting depth.";
     };
   };
 
@@ -30,11 +35,8 @@ in
       defaultSopsFile = cfg.defaultSopsFile;
       defaultSopsFormat = "yaml";
 
-      # age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
       age.keyFile = "/var/lib/sops-nix/key.txt";
       age.generateKey = true;
-
-      # NOTE: should the global common secrets be declared here?
     };
   };
 }
