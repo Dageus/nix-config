@@ -1,4 +1,9 @@
-{ lib, config, options, ... }:
+{
+  lib,
+  config,
+  options,
+  ...
+}:
 {
   options.hm = lib.mkOption {
     type = lib.types.attrs;
@@ -14,5 +19,12 @@
     };
 
     home-manager.users.${config.my.user.name} = lib.mkAliasDefinitions options.hm;
+
+    hm = {
+      programs.home-manager.enable = true;
+      systemd.user.startServices = "sd-switch";
+
+      home.username = config.my.user.name;
+    };
   };
 }
