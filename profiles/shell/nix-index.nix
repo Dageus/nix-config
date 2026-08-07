@@ -1,5 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
+
+  home-manager.sharedModules = [
+    inputs.nix-index-database.homeModules.default
+  ];
+
   hm.programs.nix-index = {
     enable = true;
     enableBashIntegration = true;

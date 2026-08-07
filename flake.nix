@@ -8,14 +8,17 @@
     nixpkgs = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
+
     # NOTE: update every 6 months
     nixpkgs-stable = {
       url = "github:NixOS/nixpkgs/nixos-25.11";
     };
+
     "nixpkgs-24.11" = {
       # fprintd
       url = "github:NixOS/nixpkgs/nixos-24.11";
     };
+
     nixpkgs-master = {
       url = "github:NixOS/nixpkgs/master";
     };
@@ -52,6 +55,10 @@
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
     };
 
     # NOTE: too early for this
