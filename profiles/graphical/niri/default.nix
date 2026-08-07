@@ -13,11 +13,6 @@
     pkgs.xwayland-satellite
   ];
 
-  # environment.pathsToLink = [
-  #   "/share/applications"
-  #   "/share/xdg-desktop-portal"
-  # ];
-
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -315,6 +310,7 @@
             "panel-toggle"
             "session"
           ];
+          hotkey-overlay.title = "Power";
         };
 
         # Directional Focus
@@ -323,9 +319,9 @@
         "Mod+Right".action.focus-column-right = [ ];
         "Mod+L".action.focus-column-right = [ ];
         "Mod+Down".action.focus-window-or-workspace-down = [ ];
-        "Mod+U".action.focus-window-down = [ ];
+        "Mod+J".action.focus-window-down = [ ];
         "Mod+Up".action.focus-window-or-workspace-up = [ ];
-        "Mod+I".action.focus-window-up = [ ];
+        "Mod+K".action.focus-window-up = [ ];
 
         # Moving windows
         "Mod+Ctrl+Left".action.move-column-left = [ ];
@@ -423,6 +419,7 @@
             "all"
             "toggle"
           ];
+          hotkey-overlay.title = "Screen record `screen`";
         };
 
         "Mod+Ctrl+R" = {
@@ -434,12 +431,12 @@
             "toggle"
             "focused"
           ];
+          hotkey-overlay.title = "Screen record `application`";
         };
       };
 
       # Noctalia Debug Compatibility
       debug.honor-xdg-activation-with-invalid-serial = { };
-      # debug.honor-xdg-activation-with-invalid-serial = true;
     };
   };
 }
