@@ -10,7 +10,8 @@ in
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryPackage = pkgs.pinentry-curses;
+    # pinentry-curses fights lazygit for the terminal. no good
+    pinentryPackage = pkgs.pinentry-gtk2;
     settings = {
       default-cache-ttl = 8 * h;
       default-cache-ttl-ssh = 8 * h;
