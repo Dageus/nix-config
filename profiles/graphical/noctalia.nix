@@ -5,12 +5,6 @@
   inputs,
   ...
 }:
-let
-  screenWidth = 1920.0;
-  screenHeight = 1080.0;
-
-  centerX = screenWidth / 2.0;
-in
 {
   hm.imports = [
     inputs.noctalia.homeModules.default
@@ -62,7 +56,7 @@ in
         # TODO:
         # avatar_path = "${self}/files/icons/swarsel.png";
         settings_show_advanced = true;
-        screenshot.directory = "~/Pictures/Screenshots";
+        screenshot.directory = "~/pictures/screenshots";
         animation = {
           enabled = true;
           speed = 4.0;
@@ -73,7 +67,7 @@ in
           transparency_mode = "solid";
           launcher_placement = "floating";
           wallpaper_placement = "floating";
-          session_placement = "centered";
+          session_placement = "floating";
           control_center_placement = "floating";
           open_near_click_control_center = true;
         };
@@ -140,7 +134,7 @@ in
           show_label = true;
         };
         clock = {
-          format = "{:%a %d. %b %H:%M:%S}";
+          format = "{:%a %d/%m %H:%M:%S}";
           tooltip_format = "{:%a %d. %b %H:%M:%S}";
         };
         "control-center" = {
@@ -193,7 +187,7 @@ in
 
       wallpaper = {
         enabled = true;
-        directory = "/home/jomouzio/Pictures/Wallpapers";
+        directory = "~/pictures/wallpapers";
         fill_mode = "crop";
         transition = [
           "fade"
@@ -217,10 +211,10 @@ in
         position = "bottom";
         color = "on_surface";
         # background_opacity = 0.8;
-        padding = 14;
+        padding = 20;
         border_width = 0.0;
         capsule_radius = 3;
-        widget_spacing = 8;
+        widget_spacing = 12;
         margin_ends = 6;
         margin_edge = 6;
         reserve_space = true;
@@ -293,8 +287,8 @@ in
           "lockscreen-login-box@eDP-1" = {
             type = "login_box";
             output = "eDP-1";
-            cx = centerX;
-            cy = screenHeight * 0.9;
+            cx = config.my.hardware.screen.width / 2;
+            cy = config.my.hardware.screen.height * 0.9;
             box_width = 0.0;
             box_height = 0.0;
             rotation = 0.0;
@@ -303,8 +297,8 @@ in
           lockscreen-widget-0000000000000001 = {
             type = "fancy_audio_visualizer";
             output = "eDP-1";
-            cx = centerX;
-            cy = screenHeight * 0.4;
+            cx = config.my.hardware.screen.width / 2;
+            cy = config.my.hardware.screen.height * 0.4;
             box_width = 192.0;
             box_height = 192.0;
             rotation = 0.0;
@@ -314,8 +308,8 @@ in
           lockscreen-widget-0000000000000002 = {
             type = "sticker";
             output = "eDP-1";
-            cx = centerX;
-            cy = screenHeight * 0.4;
+            cx = config.my.hardware.screen.width / 2;
+            cy = config.my.hardware.screen.height * 0.4;
             box_width = 0.0;
             box_height = 0.0;
             rotation = 0.0;
