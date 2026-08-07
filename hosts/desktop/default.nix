@@ -5,13 +5,57 @@
   ...
 }:
 {
-  my.user.name = "jomouzio";
-  my.user.fullName = "Jomouzio";
-  my.system.hostName = "desktop";
+  # === Configuration of host ==================================================
 
-  my.secrets.sops = {
-    enable = true;
+  my = {
+    user.name = "jomouzio";
+    user.fullName = "Jomouzio";
+    system.hostName = "desktop";
+
+    system.type = "laptop";
+    system.isGaming = true;
+    system.wallpaper = ../../config/wallpapers/Sekiro.png;
+
+    hardware.nvidia = {
+      enable = true;
+      busIds = {
+        type = "intel";
+        igpu = "PCI:0:2:0";
+        nvidia = "PCI:1:0:0";
+      };
+    };
+
+    hardware.cpu.vendor = "intel";
+
+    power.backend = "power-profiles-daemon";
+
+    # DE/WM definition is now a module, not a toggle profile
+    # my.desktop.environment = "niri";
+
+    # my.desktop.greeter = {
+    # type = "sddm";
+    # theme = "silentSDDM";
+    # image = config.my.system.wallpaper;
+    # };
+
+    # my.desktop.boot = {
+    # type = "grub";
+    # theme = "yorha";
+    # };
+
+    secrets.sops = {
+      enable = true;
+    };
+
+    # theme
+    theme = {
+      enable = true;
+    };
   };
+
+  # === Features of host =======================================================
+
+  services.power-profiles-daemon.enable = true;
 
   imports = with profiles; [
     inputs.hardware.nixosModules.common-cpu-intel
@@ -26,14 +70,12 @@
     laptop.sleep
 
     hardware.bluetooth
-    hardware.battery
     hardware.zram
 
     editors.nvim
 
     system.boot.grub
 
-    system.nix-config
     system.nix-ld
     system.nix-helper
     system.audio
@@ -42,30 +84,31 @@
 
     services.ssh
 
+    games.core
     games.steam
     games.launchers
     games.emulators
 
-    graphical.niri
     graphical.xdg
     graphical.stylix
-    graphical.file-explorer
+    graphical.file-explorer.thunar
+    graphical.niri
     graphical.noctalia
     graphical.vicinae
     graphical.kitty
     graphical.firefox
     graphical.spotify
-    # graphical.syncthing
     graphical.discord
     graphical.mpv
     graphical.obs
 
     greeter.sddm
 
+    security.gpg
+
     shell.direnv
     shell.fastfetch
     shell.git
-    shell.gpg
     shell.nix-index
     shell.tmux
     shell.utils
