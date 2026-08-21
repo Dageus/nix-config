@@ -5,57 +5,63 @@
   ...
 }:
 let
+  cfg = config.my.theme;
+
+  resolvedScheme =
+    if lib.isString cfg.scheme then
+      "${pkgs.base16-schemes}/share/themes/${cfg.scheme}.yaml"
+    else
+      cfg.scheme;
   colors = config.lib.stylix.colors;
 in
 {
-  stylix = {
-    enable = true;
-
-    image = config.my.system.wallpaper;
-
-    polarity = "dark";
-
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/kanagawa-dragon.yaml";
-
-    icons = {
+  config = lib.mkIf cfg.enable {
+    stylix = {
       enable = true;
-      package = pkgs.papirus-icon-theme;
-      dark = "Papirus-Dark";
-      light = "Papirus-Light";
-    };
+      image = config.my.system.wallpaper;
+      polarity = cfg.mode;
+      base16Scheme = resolvedScheme;
 
-    opacity = {
-      applications = 0.8;
-      terminal = 0.7;
-      popups = 0.8;
-    };
+      icons = {
+        enable = cfg.icons.enable;
+        package = cfg.icons.package;
+        dark = cfg.icons.dark;
+        light = cfg.icons.light;
+      };
 
-    cursor = {
-      package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Ice";
-      size = 20;
-    };
+      opacity = {
+        applications = 0.8;
+        terminal = 0.7;
+        popups = 0.8;
+      };
 
-    fonts = {
-      serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Ice";
+        size = 20;
       };
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
-      monospace = {
-        package = pkgs.nerd-fonts.iosevka-term;
-        name = "IosevkaTerm Nerd Font Mono";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-color-emoji;
-        name = "Noto Color Emoji";
-      };
-      sizes = {
-        terminal = 12;
-        applications = 11;
+
+      fonts = {
+        serif = {
+          package = pkgs.dejavu_fonts;
+          name = "DejaVu Serif";
+        };
+        sansSerif = {
+          package = pkgs.dejavu_fonts;
+          name = "DejaVu Sans";
+        };
+        monospace = {
+          package = pkgs.nerd-fonts.iosevka-term;
+          name = "IosevkaTerm Nerd Font Mono";
+        };
+        emoji = {
+          package = pkgs.noto-fonts-color-emoji;
+          name = "Noto Color Emoji";
+        };
+        sizes = {
+          terminal = 12;
+          applications = 11;
+        };
       };
     };
   };
