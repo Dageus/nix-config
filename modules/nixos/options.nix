@@ -56,6 +56,12 @@ in
         description = "Global path to the active system wallpaper";
         default = ../../config/wallpapers/Elden_Ring_Castle.png;
       };
+
+      profile = mkOption {
+        type = types.path;
+        description = "Global path to the active system profile picture";
+        default = ../../config/profile/kisuke_urahara.jpg;
+      };
     };
 
     # Hardware profile options

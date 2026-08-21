@@ -15,6 +15,7 @@
     system.type = "laptop";
     system.isGaming = true;
     system.wallpaper = ../../config/wallpapers/Sekiro.png;
+    system.profile = ../../config/profile/kisuke_urahara.jpg;
 
     hardware.nvidia = {
       enable = true;
@@ -30,7 +31,7 @@
     power.backend = "power-profiles-daemon";
 
     # DE/WM definition is now a module, not a toggle profile
-    # my.desktop.environment = "niri";
+    # desktop.environment.type = "niri";
 
     # my.desktop.greeter = {
     # type = "sddm";
@@ -90,7 +91,6 @@
     games.emulators
 
     graphical.xdg
-    graphical.stylix
     graphical.file-explorer.thunar
     graphical.niri
     graphical.noctalia
