@@ -28,3 +28,17 @@ sudo nixos-install --flake .#laptop
 ```
 nixos-generate-config --show-hardware-config > hosts/laptop/hardware-configuration.nix
 ```
+
+## Rebuilding system
+
+### Basic nix switch
+
+```bash
+sudo nixos-rebuild switch --flake .#<host>
+```
+
+### Booting
+
+```bash
+sudo nixos-rebuild boot --flake .#<host>
+```
