@@ -20,8 +20,9 @@ let
     power
     sops
     gpu
-    desktop
+    desktop-environment
     greeter
+    boot
     theme
   ];
 

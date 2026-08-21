@@ -12,8 +12,11 @@
       power = ./hardware/power.nix;
 
       gpu = ./hardware/gpu.nix;
-      desktop = ./desktop/environment.nix;
-      greeter = ./desktop/greeter.nix;
+
+      desktop-environment = ./desktop/environment/default.nix;
+      greeter = ./desktop/greeter/default.nix;
+      boot = ./desktop/boot/default.nix;
+
       theme = ./theme/default.nix;
     };
   };

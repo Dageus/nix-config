@@ -1,1 +1,21 @@
-# FIXME: should I have this as the entry point and have the files for each boot loader imported?
+{ lib, ... }: {
+
+  imports = [
+    ./grub.nix
+    ./systemd.nix
+    ./landaboote.nix
+  ];
+
+  options.my.desktop.boot = {
+    type = lib.mkOption {
+      type = lib.types.enum [
+        "grub"
+        "systemd"
+        "landaboote"
+        "none"
+      ];
+      default = "none";
+      description = "Desktop Environment/Window Manager implementation to enable.";
+    };
+  };
+}
