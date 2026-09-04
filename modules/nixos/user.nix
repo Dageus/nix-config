@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) mkAliasDefinitions mkOption types;
-  cfg = config.my.user;
+  cfg = config.my;
 in
 {
   options.usr = lib.mkOption {
@@ -17,19 +17,32 @@ in
   };
 
   config = {
-    users.users.${cfg.name} = mkAliasDefinitions options.usr;
+    users.users.${cfg.user.name} = mkAliasDefinitions options.usr;
 
     users.mutableUsers = false;
 
     usr = {
       isNormalUser = true;
-      description = cfg.fullName;
+      description = cfg.user.fullName;
       extraGroups = [
         "wheel"
         "networkmanager"
+        "video"
       ];
       shell = pkgs.zsh;
       initialPassword = "init";
+    };
+
+    networking.hostName = cfg.system.hostName;
+
+    home-manager.users.${cfg.user.name} = {
+      home.file.".face".source = cfg.system.profile;
+      home.file.".face.icon".source = cfg.system.profile;
+
+      home.file."pictures/wallpapers" = {
+        source = ../../config/wallpapers;
+        recursive = true;
+      };
     };
   };
 }
