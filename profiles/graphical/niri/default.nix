@@ -5,7 +5,10 @@
   ...
 }:
 {
-  programs.niri.enable = true;
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
   programs.gpu-screen-recorder.enable = true;
   programs.xwayland.enable = true;
 
@@ -31,15 +34,14 @@
   imports = [ inputs.niri.nixosModules.niri ];
 
   hm.programs.niri = {
-    package = inputs.niri.packages.${pkgs.system}.niri-unstable;
-
     # TODO:
     # config = lib.mkAfter [ ./blur.kdl ];
 
     settings = {
       # General Settings =========================================================
       prefer-no-csd = true;
-      screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
+      # FIXME: how to reconcile this with noctalia in case it's deactivated?
+      # screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
       # Input ====================================================================
       input = {
@@ -436,7 +438,7 @@
       };
 
       # Noctalia Debug Compatibility
-      debug.honor-xdg-activation-with-invalid-serial = { };
+      debug.honor-xdg-activation-with-invalid-serial = [ ];
     };
   };
 }

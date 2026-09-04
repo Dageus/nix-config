@@ -11,6 +11,7 @@
       download = "${config.my.user.homeDirectory}/downloads";
       music = "${config.my.user.homeDirectory}/music";
       pictures = "${config.my.user.homeDirectory}/pictures";
+      projects = "${config.my.user.homeDirectory}/projects2";
       publicShare = "${config.my.user.homeDirectory}/.public";
       templates = "${config.my.user.homeDirectory}/.templates";
       videos = "${config.my.user.homeDirectory}/videos";

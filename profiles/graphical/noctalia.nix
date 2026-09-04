@@ -24,7 +24,7 @@
 
     settings = {
       theme = {
-        source = "community";
+        source = "wallpaper";
         community_palette = "GruvboxAlt";
         mode = "dark";
         templates = {
@@ -53,10 +53,9 @@
         clipboard_enabled = true;
         clipboard_auto_paste = "off";
         clipboard_history_max_entries = 50;
-        # TODO:
-        # avatar_path = "${self}/files/icons/swarsel.png";
+        avatar_path = config.my.system.profile;
         settings_show_advanced = true;
-        screenshot.directory = "~/pictures/screenshots";
+        screenshot.directory = "/home/${config.my.user.name}/pictures/screenshots";
         animation = {
           enabled = true;
           speed = 4.0;
@@ -139,8 +138,7 @@
         };
         "control-center" = {
           glyph = "noctalia";
-          # TODO:
-          # custom_image = "${self}/files/icons/swarsel.png";
+          custom_image = config.my.system.profile;
           custom_image_colorize = true;
         };
         "game_launcher" = {
@@ -316,7 +314,7 @@
             enabled = true;
             settings = {
               background = true;
-              image_path = ../../config/profile/kisuke_urahara.jpg;
+              image_path = config.my.system.profile;
               opacity = 1.0;
             };
           };
