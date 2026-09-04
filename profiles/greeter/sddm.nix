@@ -25,7 +25,7 @@
     };
 
     profileIcons = {
-      "${config.my.user.name}" = ../../config/profile/kisuke_urahara.jpg;
+      "${config.my.user.name}" = config.my.system.profile;
     };
 
     settings = {
