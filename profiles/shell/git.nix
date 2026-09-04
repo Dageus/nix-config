@@ -3,7 +3,7 @@
   hm.programs.git = {
     enable = true;
     signing = {
-      key = "5590CFAB184A8968";
+      key = "FCD98E04F6DA3009";
       signByDefault = true;
     };
     settings = {

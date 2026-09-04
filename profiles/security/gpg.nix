@@ -11,7 +11,7 @@ in
     enable = true;
     enableSSHSupport = true;
     # pinentry-curses fights lazygit for the terminal. no good
-    pinentryPackage = pkgs.pinentry-gtk2;
+    pinentryPackage = pkgs.pinentry-gnome3;
     settings = {
       default-cache-ttl = 8 * h;
       default-cache-ttl-ssh = 8 * h;
